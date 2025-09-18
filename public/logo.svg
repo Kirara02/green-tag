@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="GreenTag logo">
+  <defs>
+    <linearGradient id="gt-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="none">
+    <!-- Tag shape -->
+    <path d="M20 24c0-4.418 3.582-8 8-8h40a8 8 0 0 1 5.657 2.343l30 30A8 8 0 0 1 106 54v34a8 8 0 0 1-8 8H64a8 8 0 0 1-5.657-2.343l-30-30A8 8 0 0 1 26 58V24Z" fill="url(#gt-grad)" opacity="0.9"/>
+    <!-- Tag hole -->
+    <circle cx="40" cy="36" r="6" fill="#ecfdf5"/>
+    <!-- Leaf mark -->
+    <path d="M72 44c10 0 18 8 18 18 0 12-10 22-22 22-6 0-10-2-14-6 8 2 24-2 26-18-8 4-18 2-22-6 4-6 8-10 14-10Z" fill="#ecfdf5" opacity="0.95"/>
+  </g>
+</svg>
+
+
