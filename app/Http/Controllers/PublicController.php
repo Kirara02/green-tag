@@ -30,7 +30,7 @@ class PublicController extends Controller
             'location_count' => BinLocation::count(),
         ];
 
-        return view('landing', compact('articles', 'schedules', 'stats'));
+        return view('layouts.landing', compact('articles', 'schedules', 'stats'));
     }
 
     /**

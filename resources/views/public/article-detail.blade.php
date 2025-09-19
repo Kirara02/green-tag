@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $article->title }} - GreenTag</title>
-    <meta name="description" content="{{ Str::limit(strip_tags($article->content), 160) }}">
-    <meta name="keywords" content="edukasi sampah, artikel lingkungan, {{ $article->category }}, GreenTag">
-    <meta name="author" content="GreenTag">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $article->title }} - GreenTag">
-    <meta property="og:description" content="{{ Str::limit(strip_tags($article->content), 160) }}">
-    <meta property="og:image" content="{{ $article->image ? asset('storage/' . $article->image) : url('/logo.svg') }}">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="{{ $article->title }} - GreenTag">
-    <meta property="twitter:description" content="{{ Str::limit(strip_tags($article->content), 160) }}">
-    <meta property="twitter:image" content="{{ $article->image ? asset('storage/' . $article->image) : url('/logo.svg') }}">
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-</head>
-<body class="bg-gray-50">
-    <!-- Modern Navbar -->
-    <x-public-navbar />
-    
-    <div class="max-w-4xl mx-auto px-4 py-8">
+@extends('layouts.public')
+
+@section('content')
+<div class="max-w-4xl mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center space-x-2 text-sm font-medium text-gray-500 mb-6" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
@@ -38,7 +10,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                         </svg>
-                        Beranda
+                        {{ __('public.home') }}
                     </a>
                 </li>
                 <li>
@@ -47,7 +19,7 @@
                     </svg>
                 </li>
                 <li>
-                    <a href="{{ route('educations.public.index') }}" class="text-gray-600 hover:text-green-700 transition-colors">Edukasi & Berita</a>
+                    <a href="{{ route('educations.public.index') }}" class="text-gray-600 hover:text-green-700 transition-colors">{{ __('public.educations_breadcrumb') }}</a>
                 </li>
                 <li>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -89,13 +61,13 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                             </svg>
-                            <span>Oleh: {{ $article->author->name }}</span>
+                            <span>{{ __('public.article_detail_author') }}: {{ $article->author->name }}</span>
                         </div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                             </svg>
-                            <span>{{ $article->created_at->format('d M Y') }}</span>
+                            <span>{{ __('public.article_detail_published') }}: {{ $article->created_at->format('d M Y') }}</span>
                         </div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -125,7 +97,7 @@
         <!-- Related Articles -->
         @if($relatedArticles->count() > 0)
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Artikel Terkait</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('public.article_detail_related') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($relatedArticles as $relatedArticle)
                         <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
@@ -157,7 +129,7 @@
                                         {{ $relatedArticle->created_at->format('d M Y') }}
                                     </span>
                                     <a href="{{ route('public.article', $relatedArticle->slug) }}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm transition-colors">
-                                        Baca Selengkapnya
+                                        {{ __('public.read_more') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
@@ -176,7 +148,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                 </svg>
-                Kembali ke Semua Artikel
+                {{ __('public.article_detail_back') }}
             </a>
         </div>
     </div>
@@ -209,5 +181,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

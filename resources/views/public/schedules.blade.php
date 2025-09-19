@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Pengambilan Sampah - GreenTag | Lihat Jadwal Terbaru</title>
-    <meta name="description" content="Lihat jadwal pengambilan sampah terbaru di area Anda. Temukan waktu dan hari pengambilan sampah yang tepat untuk setiap lokasi.">
-    <meta name="keywords" content="jadwal sampah, pengambilan sampah, jadwal kebersihan, GreenTag, jadwal harian">
-    <meta name="author" content="GreenTag">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="Jadwal Pengambilan Sampah - GreenTag">
-    <meta property="og:description" content="Lihat jadwal pengambilan sampah terbaru di area Anda untuk menjaga kebersihan lingkungan.">
-    <meta property="og:image" content="{{ url('/logo.svg') }}">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="Jadwal Pengambilan Sampah - GreenTag">
-    <meta property="twitter:description" content="Lihat jadwal pengambilan sampah terbaru di area Anda untuk menjaga kebersihan lingkungan.">
-    <meta property="twitter:image" content="{{ url('/logo.svg') }}">
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-</head>
-<body class="bg-gray-50">
-    <!-- Modern Navbar -->
-    <x-public-navbar />
-    
-    <div class="max-w-7xl mx-auto px-4 py-8">
+@extends('layouts.public')
+
+@section('content')
+<div class="max-w-7xl mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center space-x-2 text-sm font-medium text-gray-500 mb-6" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
@@ -38,7 +10,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                         </svg>
-                        Beranda
+                        {{ __('public.home') }}
                     </a>
                 </li>
                 <li>
@@ -47,15 +19,15 @@
                     </svg>
                 </li>
                 <li>
-                    <span class="text-gray-700">Jadwal Pengambilan</span>
+                    <span class="text-gray-700">{{ __('public.schedules_breadcrumb') }}</span>
                 </li>
             </ol>
         </nav>
 
         <!-- Header Section -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Jadwal Pengambilan Sampah</h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Temukan jadwal pengambilan sampah di area Anda. Pastikan sampah Anda siap diambil pada waktu yang tepat.</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ __('public.schedules_title') }}</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ __('public.schedules_description') }}</p>
         </div>
 
         <!-- Filter Section -->
@@ -63,7 +35,7 @@
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex-1">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Cari berdasarkan nama area..." class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <input type="text" id="searchInput" placeholder="{{ __('public.schedules_search_placeholder') }}" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
@@ -71,14 +43,14 @@
                 </div>
                 <div class="sm:w-48">
                     <select id="dayFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        <option value="">Semua Hari</option>
-                        <option value="Senin">Senin</option>
-                        <option value="Selasa">Selasa</option>
-                        <option value="Rabu">Rabu</option>
-                        <option value="Kamis">Kamis</option>
-                        <option value="Jumat">Jumat</option>
-                        <option value="Sabtu">Sabtu</option>
-                        <option value="Minggu">Minggu</option>
+                        <option value="">{{ __('public.all_days') }}</option>
+                        <option value="Senin">{{ __('public.day_monday') }}</option>
+                        <option value="Selasa">{{ __('public.day_tuesday') }}</option>
+                        <option value="Rabu">{{ __('public.day_wednesday') }}</option>
+                        <option value="Kamis">{{ __('public.day_thursday') }}</option>
+                        <option value="Jumat">{{ __('public.day_friday') }}</option>
+                        <option value="Sabtu">{{ __('public.day_saturday') }}</option>
+                        <option value="Minggu">{{ __('public.day_sunday') }}</option>
                     </select>
                 </div>
             </div>
@@ -108,7 +80,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                             </svg>
-                            <span class="text-sm font-medium">Jadwal</span>
+                            <span class="text-sm font-medium">{{ __('public.schedules_title') }}</span>
                         </div>
                     </div>
                     
@@ -120,7 +92,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                                 </svg>
-                                <span class="text-sm">Mulai</span>
+                                <span class="text-sm">{{ __('public.schedules_time') }}</span>
                             </div>
                             <span class="font-semibold text-gray-900">{{ date('H:i', strtotime($schedule->start_time)) }}</span>
                         </div>
@@ -129,7 +101,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                                 </svg>
-                                <span class="text-sm">Selesai</span>
+                                <span class="text-sm">{{ __('public.schedules_duration') }}</span>
                             </div>
                             <span class="font-semibold text-gray-900">{{ date('H:i', strtotime($schedule->end_time)) }}</span>
                         </div>
@@ -140,10 +112,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                             </svg>
-                            <span>{{ $schedule->locations->count() }} lokasi</span>
+                            <span>{{ $schedule->locations->count() }} {{ __('public.schedules_locations') }}</span>
                         </div>
                         <a href="{{ route('public.schedule', $schedule->id) }}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm transition-colors">
-                            Lihat Detail
+                            {{ __('public.view_details') }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -156,8 +128,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
                             <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum Ada Jadwal</h3>
-                        <p class="text-gray-500">Jadwal pengambilan sampah akan segera dipublikasikan. Kembali lagi nanti untuk melihat jadwal terbaru!</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ __('public.schedules_empty_title') }}</h3>
+                        <p class="text-gray-500">{{ __('public.schedules_empty_description') }}</p>
                     </div>
                 </div>
             @endforelse
@@ -253,5 +225,4 @@
             dayFilter.value = currentDay;
         }
     </script>
-</body>
-</html>
+@endsection

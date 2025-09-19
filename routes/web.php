@@ -29,6 +29,15 @@ use App\Http\Controllers\Officer\InformationController;
 Route::get('/', [PublicController::class, 'landing'])->name('landing');
 Route::post('/complaints', [PublicController::class, 'storeComplaint'])->name('complaints.store');
 
+// == RUTE LANGUAGE SWITCHING ==
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session()->put('locale', $locale);
+        app()->setLocale($locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 
 // --- TAMBAHKAN RUTE PUBLIK ---
 Route::get('/jadwal-pengambilan', [PublicController::class, 'showSchedules'])->name('schedules.public.index');

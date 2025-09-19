@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edukasi & Berita - GreenTag | Artikel Pengelolaan Sampah</title>
-    <meta name="description" content="Baca artikel edukasi terbaru seputar pengelolaan sampah, tips memilah sampah, dan praktik ramah lingkungan dari GreenTag.">
-    <meta name="keywords" content="edukasi sampah, artikel lingkungan, tips memilah sampah, pengelolaan sampah, GreenTag">
-    <meta name="author" content="GreenTag">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="Edukasi & Berita - GreenTag">
-    <meta property="og:description" content="Baca artikel edukasi terbaru seputar pengelolaan sampah dan praktik ramah lingkungan.">
-    <meta property="og:image" content="{{ url('/logo.svg') }}">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="Edukasi & Berita - GreenTag">
-    <meta property="twitter:description" content="Baca artikel edukasi terbaru seputar pengelolaan sampah dan praktik ramah lingkungan.">
-    <meta property="twitter:image" content="{{ url('/logo.svg') }}">
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-</head>
-<body class="bg-gray-50">
-    <!-- Modern Navbar -->
-    <x-public-navbar />
-    
-    <div class="max-w-7xl mx-auto px-4 py-8">
+@extends('layouts.public')
+
+@section('content')
+<div class="max-w-7xl mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center space-x-2 text-sm font-medium text-gray-500 mb-6" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
@@ -38,7 +10,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                         </svg>
-                        Beranda
+                        {{ __('public.home') }}
                     </a>
                 </li>
                 <li>
@@ -47,15 +19,15 @@
                     </svg>
                 </li>
                 <li>
-                    <span class="text-gray-700">Edukasi & Berita</span>
+                    <span class="text-gray-700">{{ __('public.educations_breadcrumb') }}</span>
                 </li>
             </ol>
         </nav>
 
         <!-- Header Section -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Edukasi & Berita</h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Tingkatkan pengetahuan Anda tentang pengelolaan sampah, tips memilah sampah, dan praktik ramah lingkungan lainnya.</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ __('public.educations_title') }}</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ __('public.educations_description') }}</p>
         </div>
 
         <!-- Search and Filter Section -->
@@ -63,7 +35,7 @@
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex-1">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Cari artikel..." class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <input type="text" id="searchInput" placeholder="{{ __('public.educations_search_placeholder') }}" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
@@ -71,10 +43,10 @@
                 </div>
                 <div class="sm:w-48">
                     <select id="categoryFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        <option value="">Semua Kategori</option>
-                        <option value="Edukasi">Edukasi</option>
-                        <option value="Berita">Berita</option>
-                        <option value="Pengumuman">Pengumuman</option>
+                        <option value="">{{ __('public.all_categories') }}</option>
+                        <option value="Edukasi">{{ __('public.category_education') }}</option>
+                        <option value="Berita">{{ __('public.category_news') }}</option>
+                        <option value="Pengumuman">{{ __('public.category_announcement') }}</option>
                     </select>
                 </div>
             </div>
@@ -112,7 +84,7 @@
                                 {{ $article->created_at->format('d M Y') }}
                             </span>
                             <a href="{{ route('public.article', $article->slug) }}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm transition-colors">
-                                Baca Selengkapnya
+                                {{ __('public.read_more') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
@@ -126,8 +98,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum Ada Artikel</h3>
-                        <p class="text-gray-500">Artikel edukasi akan segera hadir. Kembali lagi nanti untuk membaca konten terbaru!</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ __('public.educations_empty_title') }}</h3>
+                        <p class="text-gray-500">{{ __('public.educations_empty_description') }}</p>
                     </div>
                 </div>
             @endforelse
@@ -223,5 +195,4 @@
             categoryFilter.value = currentCategory;
         }
     </script>
-</body>
-</html>
+@endsection

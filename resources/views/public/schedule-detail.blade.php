@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal {{ $schedule->name }} - GreenTag</title>
-    <meta name="description" content="Jadwal pengambilan sampah untuk area {{ $schedule->name }} pada hari {{ $schedule->day }} dari {{ date('H:i', strtotime($schedule->start_time)) }} - {{ date('H:i', strtotime($schedule->end_time)) }}.">
-    <meta name="keywords" content="jadwal sampah, pengambilan sampah, {{ $schedule->name }}, {{ $schedule->day }}, GreenTag">
-    <meta name="author" content="GreenTag">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="Jadwal {{ $schedule->name }} - GreenTag">
-    <meta property="og:description" content="Jadwal pengambilan sampah untuk area {{ $schedule->name }} pada hari {{ $schedule->day }}.">
-    <meta property="og:image" content="{{ url('/logo.svg') }}">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="Jadwal {{ $schedule->name }} - GreenTag">
-    <meta property="twitter:description" content="Jadwal pengambilan sampah untuk area {{ $schedule->name }} pada hari {{ $schedule->day }}.">
-    <meta property="twitter:image" content="{{ url('/logo.svg') }}">
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-</head>
-<body class="bg-gray-50">
-    <!-- Modern Navbar -->
-    <x-public-navbar />
-    
-    <div class="max-w-4xl mx-auto px-4 py-8">
+@extends('layouts.public')
+
+@section('content')
+<div class="max-w-4xl mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center space-x-2 text-sm font-medium text-gray-500 mb-6" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
@@ -38,7 +10,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                         </svg>
-                        Beranda
+                        {{ __('public.home') }}
                     </a>
                 </li>
                 <li>
@@ -47,7 +19,7 @@
                     </svg>
                 </li>
                 <li>
-                    <a href="{{ route('schedules.public.index') }}" class="text-gray-600 hover:text-green-700 transition-colors">Jadwal Pengambilan</a>
+                    <a href="{{ route('schedules.public.index') }}" class="text-gray-600 hover:text-green-700 transition-colors">{{ __('public.schedules_breadcrumb') }}</a>
                 </li>
                 <li>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -84,12 +56,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                         </svg>
-                        <span class="text-lg font-medium">Jadwal Pengambilan</span>
+                        <span class="text-lg font-medium">{{ __('public.schedules_title') }}</span>
                     </div>
                 </div>
                 
                 <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ $schedule->name }}</h1>
-                <p class="text-green-100 text-lg">Area pengambilan sampah dengan jadwal teratur</p>
+                <p class="text-green-100 text-lg">{{ __('public.schedules_description') }}</p>
             </div>
 
             <!-- Schedule Details -->
@@ -101,19 +73,19 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                             </svg>
-                            Waktu Pengambilan
+                            {{ __('public.schedules_time') }}
                         </h3>
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Mulai:</span>
+                                <span class="text-gray-600">{{ __('public.schedules_time') }}:</span>
                                 <span class="font-semibold text-gray-900">{{ date('H:i', strtotime($schedule->start_time)) }}</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Selesai:</span>
+                                <span class="text-gray-600">{{ __('public.schedules_duration') }}:</span>
                                 <span class="font-semibold text-gray-900">{{ date('H:i', strtotime($schedule->end_time)) }}</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Durasi:</span>
+                                <span class="text-gray-600">{{ __('public.schedules_duration') }}:</span>
                                 <span class="font-semibold text-gray-900">{{ $schedule->duration }} menit</span>
                             </div>
                         </div>
@@ -124,7 +96,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                             </svg>
-                            Informasi Area
+                            {{ __('public.schedule_detail_locations') }}
                         </h3>
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
@@ -136,9 +108,9 @@
                                 <span class="font-semibold text-gray-900">{{ $schedule->day }}</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Status:</span>
+                                <span class="text-gray-600">{{ __('public.schedules_status') }}:</span>
                                 <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $schedule->status === 'ongoing' ? 'bg-green-100 text-green-800' : ($schedule->status === 'upcoming' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800') }}">
-                                    {{ $schedule->status === 'ongoing' ? 'Sedang Berlangsung' : ($schedule->status === 'upcoming' ? 'Akan Datang' : 'Selesai') }}
+                                    {{ $schedule->status === 'ongoing' ? __('public.status_ongoing') : ($schedule->status === 'upcoming' ? __('public.status_upcoming') : __('public.status_completed')) }}
                                 </span>
                             </div>
                         </div>
@@ -152,7 +124,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                             </svg>
-                            Petugas Penanggung Jawab
+                            {{ __('public.schedule_detail_officer') }}
                         </h3>
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -162,7 +134,7 @@
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-900">{{ $schedule->officerInCharge->name }}</p>
-                                <p class="text-sm text-gray-500">Petugas Pengambilan Sampah</p>
+                                <p class="text-sm text-gray-500">{{ __('public.schedule_detail_officer') }}</p>
                             </div>
                         </div>
                     </div>
@@ -175,7 +147,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                             </svg>
-                            Lokasi yang Dijangkau ({{ $schedule->locations->count() }} lokasi)
+                            {{ __('public.schedule_detail_locations') }} ({{ $schedule->locations->count() }} {{ __('public.schedules_locations') }})
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach($schedule->locations as $location)
@@ -202,7 +174,7 @@
         <!-- Related Schedules -->
         @if($relatedSchedules->count() > 0)
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Jadwal Terkait - {{ $schedule->day }}</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('public.schedule_detail_related') }} - {{ $schedule->day }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($relatedSchedules as $relatedSchedule)
                         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-green-500">
@@ -241,7 +213,7 @@
                             
                             <div class="mt-4">
                                 <a href="{{ route('public.schedule', $relatedSchedule->id) }}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm transition-colors">
-                                    Lihat Detail
+                                    {{ __('public.view_details') }}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
@@ -259,7 +231,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                 </svg>
-                Kembali ke Semua Jadwal
+                {{ __('public.schedule_detail_back') }}
             </a>
         </div>
     </div>
@@ -292,5 +264,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection
