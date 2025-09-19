@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('code')->unique(); // e.g. LOC-SAKURA02
             $table->string('name');           // Location name
             $table->string('address');        // Detailed address
+            $table->decimal('latitude', 10, 8)->nullable(); // Untuk integrasi peta
+            $table->decimal('longitude', 11, 8)->nullable(); // Untuk integrasi peta
             $table->timestamps();
         });
     }

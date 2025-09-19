@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -16,27 +14,39 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validated = $request->validate([
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required'],
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
-        if ($user && Hash::check($validated['password'], $user->password)) {
-            $request->session()->put('is_admin', true);
-            $request->session()->put('admin_email', $user->email);
-            return redirect()->route('admin.dashboard.index');
+        // Coba lakukan autentikasi tanpa memeriksa role terlebih dahulu
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            // Setelah login berhasil, periksa role dan arahkan
+            if ($user->role == 'admin') {
+                return redirect()->intended(route('admin.dashboard.index'));
+            }
+
+            if ($user->role == 'officer') {
+                return redirect()->intended(route('officer.dashboard.index'));
+            }
+
+            // Jika ada role lain yang tidak seharusnya login, logout saja
+            Auth::logout();
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request)
     {
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
     }
 }
-
-

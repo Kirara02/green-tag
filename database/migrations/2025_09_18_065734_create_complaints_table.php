@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bin_id')->constrained('bins')->cascadeOnDelete();
             $table->string('reporter_name');
-            $table->string('address');
-            $table->enum('category', ['garbage pile', 'odor', 'full TPS', 'other']);
+            $table->string('reporter_phone')->nullable();
+            $table->text('address_detail');
+            $table->enum('category', ['garbage_pile', 'odor', 'full_bin', 'broken_bin', 'other']);
             $table->text('description');
             $table->string('photo')->nullable();
             $table->enum('status', ['new', 'in_progress', 'resolved'])->default('new');

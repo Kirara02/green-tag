@@ -14,15 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $email = env('ADMIN_EMAIL', 'admin@example.com');
-        $password = env('ADMIN_PASSWORD', 'password');
+        $email = 'admin@example.com';
+        $password = 'password';
 
         User::updateOrCreate(
             ['email' => $email],
             [
                 'name' => 'Admin',
                 'password' => Hash::make($password),
+                'role' => 'admin',
             ]
         );
+
+        // Panggil seeder untuk Informasi
+        $this->call(InformationSeeder::class);
     }
 }

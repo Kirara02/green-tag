@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collection_schedules', function (Blueprint $table) {
+        Schema::create('collection_routes', function (Blueprint $table) {
             $table->id();
-            $table->string('day'); // e.g. Monday
+            $table->string('name'); // e.g., "Rute Pagi Area Sakura"
+            $table->string('day');  // e.g., Monday, Tuesday
             $table->time('start_time');
             $table->time('end_time');
-            $table->string('location');
+            $table->foreignId('officer_in_charge_id')->nullable()->constrained('users'); // Penanggung jawab rute
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collection_schedules');
+        Schema::dropIfExists('collection_routes');
     }
 };

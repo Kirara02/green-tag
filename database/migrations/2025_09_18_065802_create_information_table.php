@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('information', function (Blueprint $table) {
+        Schema::create('informations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('content');
             $table->string('image')->nullable();
+            $table->enum('category', ['Edukasi', 'Berita', 'Pengumuman'])->default('Edukasi');
+            $table->enum('status', ['published', 'draft'])->default('draft');
+            $table->foreignId('author_id')->constrained('users');
             $table->timestamps();
         });
     }
