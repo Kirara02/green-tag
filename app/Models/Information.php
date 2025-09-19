@@ -28,4 +28,55 @@ class Information extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
+    /**
+     * Scope untuk artikel yang sudah dipublikasikan.
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    /**
+     * Scope untuk pencarian berdasarkan judul atau konten.
+     */
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where(function($q) use ($searchTerm) {
+            $q->where('title', 'like', '%' . $searchTerm . '%')
+              ->orWhere('content', 'like', '%' . $searchTerm . '%');
+        });
+    }
+
+    /**
+     * Scope untuk filter berdasarkan kategori.
+     */
+    public function scopeByCategory($query, $category)
+    {
+        return $query->where('category', $category);
+    }
+
+    /**
+     * Accessor untuk excerpt konten.
+     */
+    public function getExcerptAttribute()
+    {
+        return \Str::limit(strip_tags($this->content), 150);
+    }
+
+    /**
+     * Accessor untuk URL artikel.
+     */
+    public function getUrlAttribute()
+    {
+        return route('public.article', $this->slug);
+    }
+
+    /**
+     * Accessor untuk format tanggal yang lebih readable.
+     */
+    public function getFormattedDateAttribute()
+    {
+        return $this->created_at->format('d M Y');
+    }
 }

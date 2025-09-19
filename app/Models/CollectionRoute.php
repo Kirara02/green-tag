@@ -35,4 +35,64 @@ class CollectionRoute extends Model
                     ->withPivot('sequence') // Mengambil kolom 'sequence' dari tabel pivot
                     ->orderBy('sequence');   // Mengurutkan lokasi berdasarkan urutan
     }
+
+    /**
+     * Scope untuk filter berdasarkan hari.
+     */
+    public function scopeByDay($query, $day)
+    {
+        return $query->where('day', $day);
+    }
+
+    /**
+     * Scope untuk pencarian berdasarkan nama area.
+     */
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('name', 'like', '%' . $searchTerm . '%');
+    }
+
+    /**
+     * Accessor untuk format waktu yang lebih readable.
+     */
+    public function getFormattedTimeAttribute()
+    {
+        return date('H:i', strtotime($this->start_time)) . ' - ' . date('H:i', strtotime($this->end_time));
+    }
+
+    /**
+     * Accessor untuk URL jadwal.
+     */
+    public function getUrlAttribute()
+    {
+        return route('public.schedule', $this->id);
+    }
+
+    /**
+     * Accessor untuk durasi dalam menit.
+     */
+    public function getDurationAttribute()
+    {
+        $start = strtotime($this->start_time);
+        $end = strtotime($this->end_time);
+        return ($end - $start) / 60; // dalam menit
+    }
+
+    /**
+     * Accessor untuk status jadwal berdasarkan waktu.
+     */
+    public function getStatusAttribute()
+    {
+        $now = now();
+        $start = $this->created_at->setTimeFromTimeString($this->start_time);
+        $end = $this->created_at->setTimeFromTimeString($this->end_time);
+        
+        if ($now < $start) {
+            return 'upcoming';
+        } elseif ($now >= $start && $now <= $end) {
+            return 'ongoing';
+        } else {
+            return 'completed';
+        }
+    }
 }

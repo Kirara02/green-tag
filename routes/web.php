@@ -30,9 +30,11 @@ Route::get('/', [PublicController::class, 'landing'])->name('landing');
 Route::post('/complaints', [PublicController::class, 'storeComplaint'])->name('complaints.store');
 
 
-// --- TAMBAHKAN DUA RUTE DI BAWAH INI ---
+// --- TAMBAHKAN RUTE PUBLIK ---
 Route::get('/jadwal-pengambilan', [PublicController::class, 'showSchedules'])->name('schedules.public.index');
 Route::get('/edukasi', [PublicController::class, 'showEducations'])->name('educations.public.index');
+Route::get('/edukasi/{slug}', [PublicController::class, 'showArticle'])->name('public.article');
+Route::get('/jadwal-pengambilan/{id}', [PublicController::class, 'showSchedule'])->name('public.schedule');
 
 // == RUTE AUTENTIKASI ==
 Route::middleware('guest')->group(function () {

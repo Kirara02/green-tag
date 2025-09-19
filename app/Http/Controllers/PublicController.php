@@ -36,19 +36,131 @@ class PublicController extends Controller
     /**
      * Menampilkan halaman arsip untuk semua jadwal.
      */
-    public function showSchedules()
+    public function showSchedules(Request $request)
     {
-        $schedules = CollectionRoute::with('locations')->latest()->paginate(9); // Paginate 9 per halaman
+        $query = CollectionRoute::with('locations');
+        
+        // Filter berdasarkan pencarian nama area
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        // Filter berdasarkan hari
+        if ($request->filled('day')) {
+            $query->where('day', $request->day);
+        }
+        
+        $schedules = $query->latest()->paginate(9);
+        
+        // Tambahkan parameter query ke pagination links
+        $schedules->appends($request->query());
+        
         return view('public.schedules', compact('schedules'));
     }
 
     /**
      * Menampilkan halaman arsip untuk semua artikel edukasi.
      */
-    public function showEducations()
+    public function showEducations(Request $request)
     {
-        $articles = Information::where('status', 'published')->latest()->paginate(9); // Paginate 9 per halaman
+        $query = Information::where('status', 'published');
+        
+        // Filter berdasarkan pencarian judul atau konten
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('content', 'like', '%' . $searchTerm . '%');
+            });
+        }
+        
+        // Filter berdasarkan kategori
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+        
+        $articles = $query->latest()->paginate(9);
+        
+        // Tambahkan parameter query ke pagination links
+        $articles->appends($request->query());
+        
         return view('public.educations', compact('articles'));
+    }
+
+    /**
+     * Menampilkan detail artikel edukasi.
+     */
+    public function showArticle($slug)
+    {
+        $article = Information::where('slug', $slug)
+                             ->where('status', 'published')
+                             ->with('author')
+                             ->firstOrFail();
+        
+        // Ambil artikel terkait berdasarkan kategori
+        $relatedArticles = Information::where('category', $article->category)
+                                     ->where('id', '!=', $article->id)
+                                     ->where('status', 'published')
+                                     ->latest()
+                                     ->take(3)
+                                     ->get();
+        
+        return view('public.article-detail', compact('article', 'relatedArticles'));
+    }
+
+    /**
+     * Menampilkan detail jadwal pengambilan.
+     */
+    public function showSchedule($id)
+    {
+        $schedule = CollectionRoute::with(['locations', 'officerInCharge'])
+                                  ->findOrFail($id);
+        
+        // Ambil jadwal terkait berdasarkan hari yang sama
+        $relatedSchedules = CollectionRoute::where('day', $schedule->day)
+                                          ->where('id', '!=', $schedule->id)
+                                          ->with('locations')
+                                          ->latest()
+                                          ->take(3)
+                                          ->get();
+        
+        return view('public.schedule-detail', compact('schedule', 'relatedSchedules'));
+    }
+
+    /**
+     * API endpoint untuk mendapatkan artikel berdasarkan kategori (AJAX).
+     */
+    public function getArticlesByCategory(Request $request)
+    {
+        $category = $request->get('category');
+        
+        $articles = Information::where('status', 'published')
+                              ->when($category, function($query, $category) {
+                                  return $query->where('category', $category);
+                              })
+                              ->latest()
+                              ->take(6)
+                              ->get(['id', 'title', 'slug', 'category', 'created_at']);
+        
+        return response()->json($articles);
+    }
+
+    /**
+     * API endpoint untuk mendapatkan jadwal berdasarkan hari (AJAX).
+     */
+    public function getSchedulesByDay(Request $request)
+    {
+        $day = $request->get('day');
+        
+        $schedules = CollectionRoute::with('locations')
+                                   ->when($day, function($query, $day) {
+                                       return $query->where('day', $day);
+                                   })
+                                   ->latest()
+                                   ->take(6)
+                                   ->get(['id', 'name', 'day', 'start_time', 'end_time']);
+        
+        return response()->json($schedules);
     }
 
     /**

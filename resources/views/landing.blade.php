@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GreenTag - Manajemen Sampah Cerdas</title>
+    <title>GreenTag - Manajemen Sampah Cerdas | Platform QR Code untuk Pengelolaan Sampah</title>
+    <meta name="description" content="GreenTag adalah platform manajemen sampah cerdas dengan teknologi QR Code. Kirim pengaduan sampah, akses jadwal pengambilan, dan baca edukasi lingkungan secara mudah.">
+    <meta name="keywords" content="manajemen sampah, QR code, pengaduan sampah, jadwal pengambilan sampah, edukasi lingkungan, GreenTag">
+    <meta name="author" content="GreenTag">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="GreenTag - Manajemen Sampah Cerdas">
+    <meta property="og:description" content="Platform manajemen sampah cerdas dengan teknologi QR Code untuk kota yang lebih bersih dan hijau.">
+    <meta property="og:image" content="{{ url('/logo.svg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="GreenTag - Manajemen Sampah Cerdas">
+    <meta property="twitter:description" content="Platform manajemen sampah cerdas dengan teknologi QR Code untuk kota yang lebih bersih dan hijau.">
+    <meta property="twitter:image" content="{{ url('/logo.svg') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -21,35 +39,107 @@
     </div>
     @endif
 
-    <!-- Navbar -->
-    <nav class="bg-green-600 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold flex items-center gap-2"><img src="/logo.svg" alt="Logo GreenTag" class="w-7 h-7"/>GreenTag</a>
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="#tentang" class="hover:text-gray-200">Tentang</a>
-                <a href="#jadwal" class="hover:text-gray-200">Jadwal</a>
-                <a href="#edukasi" class="hover:text-gray-200">Edukasi</a>
-                <a href="#kontak" class="hover:text-gray-200">Kontak</a>
-                <a href="{{ route('login') }}" class="inline-flex items-center bg-white/90 text-green-700 p-2 rounded-full shadow hover:bg-white transition-colors" aria-label="Login Admin">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M3.75 4.5A2.25 2.25 0 0 1 6 2.25h6A2.25 2.25 0 0 1 14.25 4.5v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 0-.75-.75H6a.75.75 0 0 0-.75.75v15a.75.75 0 0 0 .75.75h6a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 1 1.5 0v3A2.25 2.25 0 0 1 12 21.75H6A2.25 2.25 0 0 1 3.75 19.5v-15Z"/><path d="M21 12a.75.75 0 0 1-.22.53l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H10.5a.75.75 0 0 1 0-1.5h6.94l-1.72-1.72a.75.75 0 1 1 1.06-1.06l3 3c.14.14.22.33.22.53Z"/></svg>
+    <!-- Modern Navbar -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50 border-b border-gray-100" x-data="{ mobileMenuOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
+                            <img src="/logo.svg" alt="GreenTag Logo" class="w-10 h-10">
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">GreenTag</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#tentang" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50">
+                            Tentang
+                        </a>
+                        <a href="#jadwal" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50">
+                            Jadwal
+                        </a>
+                        <a href="#edukasi" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50">
+                            Edukasi
+                        </a>
+                        <a href="#kontak" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50">
+                            Kontak
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <div class="hidden md:block">
+                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 px-4 py-2.5 rounded-xl transition-all duration-200 hover:bg-green-50 border border-gray-200 hover:border-green-200 shadow-sm hover:shadow-md font-medium text-sm" title="Login Admin">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                            <path d="M3.75 4.5A2.25 2.25 0 0 1 6 2.25h6A2.25 2.25 0 0 1 14.25 4.5v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 0-.75-.75H6a.75.75 0 0 0-.75.75v15a.75.75 0 0 0 .75.75h6a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 1 1.5 0v3A2.25 2.25 0 0 1 12 21.75H6A2.25 2.25 0 0 1 3.75 19.5v-15Z"/>
+                            <path d="M21 12a.75.75 0 0 1-.22.53l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H10.5a.75.75 0 0 1 0-1.5h6.94l-1.72-1.72a.75.75 0 1 1 1.06-1.06l3 3c.14.14.22.33.22.53Z"/>
+                        </svg>
+                        Login
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-green-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 transition-all duration-200" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Hamburger icon -->
+                        <svg x-show="!mobileMenuOpen" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <!-- Close icon -->
+                        <svg x-show="mobileMenuOpen" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div x-show="mobileMenuOpen" x-transition class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200 shadow-lg">
+                <a href="#tentang" @click="mobileMenuOpen = false" class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50">
+                    Tentang
                 </a>
+                <a href="#jadwal" @click="mobileMenuOpen = false" class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50">
+                    Jadwal
+                </a>
+                <a href="#edukasi" @click="mobileMenuOpen = false" class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50">
+                    Edukasi
+                </a>
+                <a href="#kontak" @click="mobileMenuOpen = false" class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50">
+                    Kontak
+                </a>
+                <div class="pt-4 border-t border-gray-200">
+                    <a href="{{ route('login') }}" @click="mobileMenuOpen = false" class="text-gray-600 hover:text-green-600 flex items-center justify-center w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 border border-gray-200 hover:border-green-200 hover:bg-green-50 shadow-sm hover:shadow-md" title="Login Admin">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
+                            <path d="M3.75 4.5A2.25 2.25 0 0 1 6 2.25h6A2.25 2.25 0 0 1 14.25 4.5v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 0-.75-.75H6a.75.75 0 0 0-.75.75v15a.75.75 0 0 0 .75.75h6a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 1 1.5 0v3A2.25 2.25 0 0 1 12 21.75H6A2.25 2.25 0 0 1 3.75 19.5v-15Z"/>
+                            <path d="M21 12a.75.75 0 0 1-.22.53l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H10.5a.75.75 0 0 1 0-1.5h6.94l-1.72-1.72a.75.75 0 1 1 1.06-1.06l3 3c.14.14.22.33.22.53Z"/>
+                        </svg>
+                        Login
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-br from-green-50 via-white to-green-100">
-        <div class="max-w-7xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-8 items-center">
-            <div class="text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-8 items-center">
+            <div class="text-center md:text-left order-2 md:order-1">
                 <div class="inline-flex items-center gap-2 bg-white shadow-sm rounded-full px-4 py-1 text-sm text-green-700 border border-green-100"><span class="w-2 h-2 rounded-full bg-green-500"></span>Kota Lebih Hijau, Kelola Sampah Lebih Cerdas</div>
-                <h2 class="mt-6 text-4xl md:text-5xl font-extrabold tracking-tight text-green-800">Kelola Sampah Lebih Cerdas, Bersih, dan Bersama</h2>
-                <p class="mt-4 text-lg text-gray-600 md:max-w-xl">Scan QR di tempat sampah, kirim pengaduan secara instan, dan ikuti jadwal pengambilan di area Anda.</p>
-                <div class="mt-8 flex items-center md:justify-start justify-center gap-4">
-                    <button onclick="document.getElementById('complaintDialog').showModal()" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-green-700 transition">Kirim Pengaduan</button>
-                    <a href="#fitur" class="px-6 py-3 rounded-xl font-semibold border border-green-200 text-green-700 hover:bg-white shadow-sm transition">Pelajari Lebih Lanjut</a>
+                <h2 class="mt-6 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-green-800">Kelola Sampah Lebih Cerdas, Bersih, dan Bersama</h2>
+                <p class="mt-4 text-base md:text-lg text-gray-600 md:max-w-xl">Scan QR di tempat sampah, kirim pengaduan secara instan, dan ikuti jadwal pengambilan di area Anda.</p>
+                <div class="mt-8 flex flex-col sm:flex-row items-center md:justify-start justify-center gap-4">
+                    <button onclick="document.getElementById('complaintDialog').showModal()" class="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-green-700 transition">Kirim Pengaduan</button>
+                    <a href="#fitur" class="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold border border-green-200 text-green-700 hover:bg-white shadow-sm transition text-center">Pelajari Lebih Lanjut</a>
                 </div>
             </div>
-            <div class="hidden md:block">
+            <div class="order-1 md:order-2">
                 <svg class="w-full max-w-lg mx-auto animate-float" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#10b981"/></linearGradient></defs><rect x="40" y="60" width="320" height="180" rx="16" fill="url(#grad)" opacity="0.15"/><rect x="70" y="90" width="260" height="140" rx="12" fill="#fff" stroke="#d1fae5"/><rect x="90" y="120" width="100" height="12" rx="6" fill="#34d399"/><rect x="90" y="140" width="180" height="10" rx="5" fill="#a7f3d0"/><rect x="90" y="160" width="160" height="10" rx="5" fill="#a7f3d0"/><circle cx="310" cy="120" r="14" fill="#10b981"/><path d="M306 120l6 6 10-12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g opacity="0.4"><rect x="240" y="60" width="40" height="10" rx="5" fill="#34d399"/><rect x="120" y="230" width="60" height="10" rx="5" fill="#10b981"/></g></svg>
             </div>
         </div>
@@ -57,36 +147,43 @@
 
     <!-- Stats Band -->
     <section class="bg-slate-50 border-y border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-200">
+        <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 
-                <div class="flex items-center justify-center gap-4">
-                    <div class="flex-shrink-0 w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0c-1.67-.253-3.285-.673-4.83-1.243a.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 4.5 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0L12 17.9l-2.248.002Z" clip-rule="evenodd" /></svg>
+                <div class="flex items-center justify-center gap-4 bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+                            <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.678 3.348-3.97z" clip-rule="evenodd"/>
+                        </svg>
                     </div>
                     <div class="text-left">
-                        <div class="text-4xl font-extrabold text-green-700">{{ $stats['complaint_count'] }}+</div>
-                        <div class="text-slate-500 font-medium">Pengaduan Diproses</div>
+                        <div class="text-2xl md:text-4xl font-extrabold text-green-700">{{ $stats['complaint_count'] }}+</div>
+                        <div class="text-sm md:text-base text-slate-500 font-medium">Pengaduan Diproses</div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-4">
-                    <div class="flex-shrink-0 w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M4.5 6A1.5 1.5 0 0 1 6 4.5h12A1.5 1.5 0 0 1 19.5 6v3A1.5 1.5 0 0 1 18 10.5H6A1.5 1.5 0 0 1 4.5 9V6ZM4.5 15A1.5 1.5 0 0 1 6 13.5h12A1.5 1.5 0 0 1 19.5 15v3A1.5 1.5 0 0 1 18 19.5H6A1.5 1.5 0 0 1 4.5 18v-3Z"/></svg>
+                <div class="flex items-center justify-center gap-4 bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+                            <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375z"/>
+                            <path fill-rule="evenodd" d="M3.087 9l.54 9.176A3 3 0 006.62 21h10.757a3 3 0 002.995-2.824L20.913 9H3.087zm6.163 3.75A.75.75 0 0110 12h4a.75.75 0 010 1.5h-4a.75.75 0 01-.75-.75z" clip-rule="evenodd"/>
+                        </svg>
                     </div>
                     <div class="text-left">
-                        <div class="text-4xl font-extrabold text-green-700">{{ $stats['bin_count'] }}+</div>
-                        <div class="text-slate-500 font-medium">Tempat Sampah Cerdas</div>
+                        <div class="text-2xl md:text-4xl font-extrabold text-green-700">{{ $stats['bin_count'] }}+</div>
+                        <div class="text-sm md:text-base text-slate-500 font-medium">Tempat Sampah Cerdas</div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-4">
-                    <div class="flex-shrink-0 w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a2.25 2.25 0 0 0 .286-.17c1.395-.893 2.824-2.15 3.963-3.793a12.08 12.08 0 0 0 2.592-7.198C21 6.088 17.03 2.25 12 2.25S3 6.088 3 11.25a12.08 12.08 0 0 0 2.592 7.198c1.139 1.643 2.568 2.9 3.963 3.793a2.25 2.25 0 0 0 .286.17l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041ZM12 15a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" clip-rule="evenodd" /></svg>
+                <div class="flex items-center justify-center gap-4 bg-white p-4 rounded-xl shadow-sm sm:col-span-2 lg:col-span-1">
+                    <div class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 md:w-9 md:h-9">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
                     </div>
                     <div class="text-left">
-                        <div class="text-4xl font-extrabold text-green-700">{{ $stats['location_count'] }}+</div>
-                        <div class="text-slate-500 font-medium">Lokasi Terjangkau</div>
+                        <div class="text-2xl md:text-4xl font-extrabold text-green-700">{{ $stats['location_count'] }}+</div>
+                        <div class="text-sm md:text-base text-slate-500 font-medium">Lokasi Terjangkau</div>
                     </div>
                 </div>
 
@@ -105,7 +202,10 @@
             
             <div class="flex flex-col items-start bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                 <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-green-600 text-white shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 2.25a.75.75 0 0 1 .75.75v6.19l2.53 2.53a.75.75 0 1 1-1.06 1.06l-3-3A.75.75 0 0 1 11 9V3a.75.75 0 0 1 1-.75Z"/><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                        <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375z"/>
+                        <path fill-rule="evenodd" d="M3.087 9l.54 9.176A3 3 0 006.62 21h10.757a3 3 0 002.995-2.824L20.913 9H3.087zm6.163 3.75A.75.75 0 0110 12h4a.75.75 0 010 1.5h-4a.75.75 0 01-.75-.75z" clip-rule="evenodd"/>
+                    </svg>
                 </div>
                 <h3 class="mt-6 text-xl font-semibold leading-7 text-gray-900">Laporan Cepat & Akurat</h3>
                 <p class="mt-4 text-base leading-7 text-gray-600">Kirim masalah dalam hitungan detik. Scan QR di tempat sampah secara otomatis akan melampirkan lokasi yang tepat, membantu tim kami merespon lebih cepat.</p>
@@ -113,7 +213,9 @@
 
             <div class="flex flex-col items-start bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                 <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-green-600 text-white shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M3.75 6A2.25 2.25 0 0 1 6 3.75h12A2.25 2.25 0 0 1 20.25 6v12A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V6Zm3 2.25A.75.75 0 0 0 6 9v6a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75Zm4.5 0A.75.75 0 0 0 10.5 9v6a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75Zm4.5 0A.75.75 0 0 0 15 9v6a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                        <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd"/>
+                    </svg>
                 </div>
                 <h3 class="mt-6 text-xl font-semibold leading-7 text-gray-900">Jadwal yang Jelas</h3>
                 <p class="mt-4 text-base leading-7 text-gray-600">Tidak perlu lagi menebak-nebak. Akses jadwal pengambilan sampah yang terperinci untuk setiap area, langsung dari halaman utama kami.</p>
@@ -121,7 +223,9 @@
 
             <div class="flex flex-col items-start bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                 <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-green-600 text-white shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-.53 5.72a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06L12.75 10.56V18a.75.75 0 0 1-1.5 0v-7.44L9.03 13.53a.75.75 0 1 1-1.06-1.06l4.5-4.5Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                        <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z"/>
+                    </svg>
                 </div>
                 <h3 class="mt-6 text-xl font-semibold leading-7 text-gray-900">Pusat Edukasi</h3>
                 <p class="mt-4 text-base leading-7 text-gray-600">Tingkatkan pengetahuan Anda tentang cara memilah sampah, membuat kompos, dan praktik ramah lingkungan lainnya melalui artikel-artikel kami.</p>
@@ -279,6 +383,21 @@
             </form>
         </div>
     </dialog>
+
+    <!-- Scroll to Top Button -->
+    <button 
+        x-data="{ show: false }" 
+        @scroll.window="show = window.scrollY > 300" 
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        x-show="show"
+        x-transition
+        class="fixed bottom-6 right-6 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 z-40"
+        aria-label="Scroll to top"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <!-- Footer -->
     <footer class="bg-green-700 text-white py-10 mt-12">
