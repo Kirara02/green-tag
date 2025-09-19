@@ -1,4 +1,25 @@
-<x-layout>
+@php
+    $breadcrumb = [
+        [
+            'label' => 'Dashboard',
+            'url' => route('officer.dashboard.index')
+        ],
+        [
+            'label' => 'Operasional',
+            'url' => '#'
+        ],
+        [
+            'label' => 'Manajemen Jadwal',
+            'url' => route('officer.schedules.index')
+        ],
+        [
+            'label' => 'Tambah Jadwal Baru',
+            'url' => '#'
+        ]
+    ];
+@endphp
+
+<x-layout :breadcrumb="$breadcrumb">
     <x-slot:page_title>
         Tambah Jadwal Baru
     </x-slot>

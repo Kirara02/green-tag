@@ -1,4 +1,25 @@
-<x-layout>
+@php
+    $breadcrumb = [
+        [
+            'label' => 'Dashboard',
+            'url' => route('officer.dashboard.index')
+        ],
+        [
+            'label' => 'Master Data',
+            'url' => '#'
+        ],
+        [
+            'label' => 'Manajemen Lokasi',
+            'url' => route('officer.locations.index')
+        ],
+        [
+            'label' => 'Edit Lokasi',
+            'url' => '#'
+        ]
+    ];
+@endphp
+
+<x-layout :breadcrumb="$breadcrumb">
     <x-slot:page_title>
         Edit Lokasi
     </x-slot>

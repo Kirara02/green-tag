@@ -1,4 +1,25 @@
-<x-layout>
+@php
+    $breadcrumb = [
+        [
+            'label' => 'Dashboard',
+            'url' => route('officer.dashboard.index')
+        ],
+        [
+            'label' => 'Master Data',
+            'url' => '#'
+        ],
+        [
+            'label' => 'Manajemen Tempat Sampah',
+            'url' => route('officer.bins.index')
+        ],
+        [
+            'label' => 'Tambah Tempat Sampah',
+            'url' => '#'
+        ]
+    ];
+@endphp
+
+<x-layout :breadcrumb="$breadcrumb">
     <x-slot:page_title>
         Tambah Tempat Sampah
     </x-slot>

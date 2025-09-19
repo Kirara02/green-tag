@@ -1,4 +1,25 @@
-<x-layout>
+@php
+    $breadcrumb = [
+        [
+            'label' => 'Dashboard',
+            'url' => route('admin.dashboard.index')
+        ],
+        [
+            'label' => 'Sistem',
+            'url' => '#'
+        ],
+        [
+            'label' => 'Manajemen Pengguna',
+            'url' => route('admin.users.index')
+        ],
+        [
+            'label' => 'Tambah Pengguna Baru',
+            'url' => '#'
+        ]
+    ];
+@endphp
+
+<x-layout :breadcrumb="$breadcrumb">
     <x-slot:page_title>
         Tambah Pengguna Baru
     </x-slot>

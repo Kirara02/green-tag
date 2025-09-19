@@ -5,18 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $page_title ?? 'Dasbor' }} - GreenTag Panel</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    {{-- 1. Tambahkan AlpineJS Persist Plugin SEBELUM script AlpineJS utama --}}
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {{-- Load AlpineJS dengan persist plugin secara bersamaan untuk menghindari race condition --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.14.1/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+    {{-- CSS untuk mencegah layout shift dan memperbaiki transisi sidebar --}}
+    <style>
+        /* Mencegah layout shift saat navigasi */
+        .sidebar-transition {
+            transition: width 200ms ease-in-out, padding-left 200ms ease-in-out;
+        }
+        
+        /* Memastikan transisi smooth untuk elemen sidebar */
+        .sidebar-content {
+            transition: opacity 150ms ease-in-out;
+        }
+        
+        /* Mencegah flash saat AlpineJS load */
+        [x-cloak] { 
+            display: none !important; 
+        }
+        
+        /* Optimasi untuk mencegah reflow */
+        .sidebar-fixed {
+            will-change: width;
+            transform: translateZ(0);
+        }
+        
+        /* Mencegah sidebar flash saat page load */
+        body {
+            opacity: 0;
+            transition: opacity 100ms ease-in-out;
+        }
+        
+        body.loaded {
+            opacity: 1;
+        }
+        
+        /* Pastikan sidebar tidak berubah ukuran saat navigasi */
+        .sidebar-fixed {
+            contain: layout style;
+        }
+    </style>
+    
     @stack('styles')
 </head>
 {{-- 2. Gunakan $persist untuk menyimpan state 'sidebarExpanded' --}}
 <body class="bg-slate-50 text-slate-800" x-data="{ sidebarOpen: false, sidebarExpanded: $persist(true).as('sidebar_expanded_state') }">
     @auth
     <!-- Sidebar -->
-    <aside class="hidden md:flex fixed inset-y-0 left-0 bg-white border-r border-slate-200 z-40 transition-all duration-300"
-           :class="sidebarExpanded ? 'w-64' : 'w-20'">
+    <aside class="hidden md:flex fixed inset-y-0 left-0 bg-white border-r border-slate-200 z-40 sidebar-fixed sidebar-transition"
+           :class="sidebarExpanded ? 'w-64' : 'w-20'"
+           x-cloak>
         <div class="flex flex-col w-full">
             {{-- 3. Modifikasi Header Sidebar untuk mengatasi masalah layout --}}
             <div class="flex items-center h-16 border-b border-slate-100 flex-shrink-0"
@@ -55,7 +96,7 @@
     </aside>
 
     <!-- Header & Main Content Wrapper -->
-    <div class="flex flex-col flex-1 min-h-screen transition-all duration-300"
+    <div class="flex flex-col flex-1 min-h-screen sidebar-transition"
          :class="{'md:pl-64': sidebarExpanded, 'md:pl-20': !sidebarExpanded}">
         <!-- Header (Tidak ada perubahan) -->
         <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
@@ -84,10 +125,29 @@
         </header>
         
         <main class="p-4 sm:p-6 lg:p-8 flex-1">
+            {{-- Breadcrumb --}}
+            @if(isset($breadcrumb))
+                <x-breadcrumb :items="$breadcrumb" />
+            @endif
+            
             {{ $slot }}
         </main>
     </div>
     @endauth
+    
+    {{-- Script untuk mencegah flash saat page load --}}
+    <script>
+        // Tambahkan class loaded setelah AlpineJS selesai load
+        document.addEventListener('alpine:init', () => {
+            document.body.classList.add('loaded');
+        });
+        
+        // Fallback jika AlpineJS sudah loaded
+        if (window.Alpine) {
+            document.body.classList.add('loaded');
+        }
+    </script>
+    
     @stack('scripts')
 </body>
 </html>

@@ -1,4 +1,21 @@
-<x-layout>
+@php
+    $breadcrumb = [
+        [
+            'label' => 'Dashboard',
+            'url' => route('officer.dashboard.index')
+        ],
+        [
+            'label' => 'Operasional',
+            'url' => '#'
+        ],
+        [
+            'label' => 'Manajemen Edukasi',
+            'url' => '#'
+        ]
+    ];
+@endphp
+
+<x-layout :breadcrumb="$breadcrumb">
     <x-slot:page_title>
         Manajemen Edukasi
     </x-slot>
