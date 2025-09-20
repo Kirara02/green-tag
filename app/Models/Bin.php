@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bin extends Model
 {
-    protected $fillable = ['bin_location_id', 'code', 'qr_token', 'description'];
+    protected $fillable = [
+        'bin_location_id',
+        'code',
+        'qr_token',
+        'description',
+        'accepted_waste_types',
+    ];
 
     /**
      * Relasi: Sebuah Bin dimiliki oleh satu BinLocation.

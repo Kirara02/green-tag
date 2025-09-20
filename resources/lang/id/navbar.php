@@ -11,4 +11,3 @@ return [
     'about' => 'Tentang',
     'language' => 'Bahasa',
 ];
-

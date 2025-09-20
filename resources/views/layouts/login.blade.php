@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GreenTag</title>
+    <title>@lang('public.login_page_title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 
@@ -17,8 +17,8 @@
             class="bg-white/90 backdrop-blur shadow-lg rounded-2xl w-full max-w-md p-8 border border-green-100">
             <div class="text-center mb-6">
                 <img src="/logo.svg" alt="GreenTag logo" class="w-12 h-12 mx-auto mb-3" />
-                <h1 class="text-2xl font-bold">GreenTag Admin Login</h1>
-                <p class="text-sm text-gray-500 mt-1">Masuk untuk mengelola GreenTag</p>
+                <h1 class="text-2xl font-bold">@lang('public.login_form_title')</h1>
+                <p class="text-sm text-gray-500 mt-1">@lang('public.login_form_subtitle')</p>
             </div>
 
             @if ($errors->any())
@@ -32,38 +32,51 @@
                 x-data="{ show: false }">
                 @csrf
                 <div>
-                    <label class="block text-sm font-medium">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}"
-                        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500/50"
-                        required>
+                    <label for="email"
+                        class="block text-sm font-medium">@lang('public.login_form_email')</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium">Password</label>
+                    <label for="password"
+                        class="block text-sm font-medium">@lang('public.login_form_password')</label>
                     <div class="relative">
-                        <input :type="show ? 'text' : 'password'" name="password"
-                            class="w-full border rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-green-500/50"
-                            required>
+                        <input :type="show ? 'text' : 'password'" id="password" name="password"
+                            required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 pr-10">
                         <button type="button" @click="show = !show"
-                            class="absolute inset-y-0 right-2 my-auto text-gray-500 hover:text-gray-700">
-                            <svg x-show="!show" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                                <path
-                                    d="M12 5c-7.633 0-11 7-11 7s3.367 7 11 7 11-7 11-7-3.367-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z" />
+                            class="absolute inset-y-0 right-0 top-0 my-auto flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                            aria-label="Toggle password visibility">
+
+                            <!-- Eye (show password) -->
+                            <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 12c0 0 3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z" />
+                                <circle cx="12" cy="12" r="2.25" />
                             </svg>
-                            <svg x-show="show" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                                <path
-                                    d="M3.707 2.293 2.293 3.707l3.22 3.22A13.89 13.89 0 0 0 1 12s3.367 7 11 7a11.43 11.43 0 0 0 5.073-1.128l3.22 3.22 1.414-1.414-17-17ZM12 7a5 5 0 0 1 5 5c0 .558-.096 1.093-.272 1.592L9.408 6.272A4.98 4.98 0 0 1 12 7Z" />
+
+                            <!-- Eye slash (hide password) -->
+                            <svg x-show="show" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 3l18 18M10.5 10.5A2.25 2.25 0 0012 14.25c.621 0 1.184-.252 1.591-.659M15.75 12c0-.621-.252-1.184-.659-1.591M9.5 5.5c.8-.21 1.63-.25 2.5-.25 6 0 9.75 6.75 9.75 6.75-1.018 1.833-2.354 3.31-3.955 4.34" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.343 6.343C4.72 7.527 3.454 9.162 2.25 12c0 0 3.75 6.75 9.75 6.75 1.24 0 2.385-.232 3.41-.65" />
                             </svg>
                         </button>
+
                     </div>
                 </div>
                 <button type="submit"
-                    class="w-full bg-green-600 text-white py-2.5 rounded-lg font-semibold shadow hover:bg-green-700">Login</button>
+                    class="w-full bg-green-600 text-white py-2.5 rounded-md font-semibold shadow hover:bg-green-700 transition-colors">@lang('public.login_form_submit')</button>
             </form>
             <div class="text-center mt-4">
-                <a href="/" class="text-sm text-gray-500 hover:text-gray-700">Kembali ke
-                    landing</a>
+                <a href="{{ route('landing') }}"
+                    class="text-sm text-gray-500 hover:text-gray-700">@lang('public.login_back_to_landing')</a>
             </div>
         </div>
     </div>

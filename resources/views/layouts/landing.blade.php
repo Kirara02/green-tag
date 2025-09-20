@@ -212,8 +212,7 @@
                     {{ __('landing.hero_description') }}</p>
                 <div
                     class="mt-8 flex flex-col sm:flex-row items-center md:justify-start justify-center gap-4">
-                    <button onclick="document.getElementById('complaintDialog').showModal()"
-                        class="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-green-700 transition">{{ __('landing.hero_cta_report') }}</button>
+                    
                     <a href="#fitur"
                         class="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold border border-green-200 text-green-700 hover:bg-white shadow-sm transition text-center">{{ __('landing.hero_cta_learn') }}</a>
                 </div>
@@ -577,69 +576,7 @@
         </div>
     </section>
 
-    <!-- Dialog: Complaint -->
-    <dialog id="complaintDialog"
-        class="backdrop:bg-black/50 rounded-xl p-0 max-w-lg w-[90vw] m-auto">
-        <div class="bg-white rounded-xl p-6 w-full">
-            <h3 class="text-xl font-bold text-center mb-4">{{ __('landing.complaint_title') }}
-            </h3>
-            @if ($errors->any())
-                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md"
-                    role="alert"><strong
-                        class="font-bold">{{ __('landing.complaint_error_title') }}</strong>
-                    <ul class="mt-2 list-disc list-inside text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <form action="{{ route('complaints.store') }}" method="POST"
-                enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <input type="hidden" id="qr_token_input" name="qr_token" value="">
-                <div><label for="reporter_name"
-                        class="block text-sm font-medium">{{ __('landing.complaint_name') }}</label><input
-                        type="text" id="reporter_name" name="reporter_name"
-                        value="{{ old('reporter_name') }}"
-                        class="w-full border rounded-lg px-3 py-2 mt-1" required></div>
-                <div><label for="reporter_phone"
-                        class="block text-sm font-medium">{{ __('landing.complaint_phone') }}</label><input
-                        type="tel" id="reporter_phone" name="reporter_phone"
-                        value="{{ old('reporter_phone') }}"
-                        class="w-full border rounded-lg px-3 py-2 mt-1"></div>
-                <div><label for="address_detail"
-                        class="block text-sm font-medium">{{ __('landing.complaint_address') }}</label><input
-                        type="text" id="address_detail" name="address_detail"
-                        value="{{ old('address_detail') }}"
-                        class="w-full border rounded-lg px-3 py-2 mt-1" required></div>
-                <div><label for="category"
-                        class="block text-sm font-medium">{{ __('landing.complaint_category') }}</label><select
-                        id="category" name="category"
-                        class="w-full border rounded-lg px-3 py-2 mt-1" required>
-                        @foreach (__('landing.complaint_categories') as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                        @endforeach
-                    </select></div>
-                <div><label for="description"
-                        class="block text-sm font-medium">{{ __('landing.complaint_description') }}</label>
-                    <textarea id="description" name="description" rows="4"
-                        class="w-full border rounded-lg px-3 py-2 mt-1" required>{{ old('description') }}</textarea>
-                </div>
-                <div><label for="photo"
-                        class="block text-sm font-medium">{{ __('landing.complaint_photo') }}</label><input
-                        type="file" id="photo" name="photo" accept="image/*"
-                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
-                </div>
-                <div class="flex justify-end space-x-3 pt-2"><button type="button"
-                        onclick="document.getElementById('complaintDialog').close()"
-                        class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">{{ __('landing.complaint_cancel') }}</button><button
-                        type="submit"
-                        class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700">{{ __('landing.complaint_submit') }}</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
+   
 
     <!-- Scroll to Top Button -->
     <button x-data="{ show: false }" @scroll.window="show = window.scrollY > 300"

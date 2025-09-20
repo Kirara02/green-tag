@@ -6,7 +6,7 @@ use App\Models\Bin;
 use App\Models\Complaint;
 use App\Models\Information;
 use App\Models\CollectionRoute;
-use App\Models\BinLocation; // <-- Import BinLocation
+use App\Models\BinLocation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -226,5 +226,16 @@ class PublicController extends Controller
                 'success',
                 'Your complaint has been submitted successfully. Thank you for your report!',
             );
+    }
+
+    public function showQrPage(Bin $bin)
+    {
+        // 'load' digunakan untuk eager load relasi pada model yang sudah diambil.
+        $bin->load('location.collectionRoutes');
+
+        // Ambil artikel edukasi relevan (contoh: 2 terbaru)
+        $relatedArticles = Information::where('status', 'published')->latest()->take(2)->get();
+
+        return view('public.qr-page', compact('bin', 'relatedArticles'));
     }
 }

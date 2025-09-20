@@ -32,6 +32,7 @@ class BinController extends Controller
             'bin_location_id' => ['required', 'exists:bin_locations,id'],
             'code' => ['required', 'string', 'max:255', 'unique:bins,code'],
             'description' => ['nullable', 'string', 'max:255'],
+            'accepted_waste_types' => ['nullable', 'string', 'max:255'],
         ]);
 
         // Tambahkan qr_token unik secara otomatis
@@ -56,6 +57,7 @@ class BinController extends Controller
             'bin_location_id' => ['required', 'exists:bin_locations,id'],
             'code' => ['required', 'string', 'max:255', Rule::unique('bins')->ignore($bin->id)],
             'description' => ['nullable', 'string', 'max:255'],
+            'accepted_waste_types' => ['nullable', 'string', 'max:255'],
         ]);
 
         $bin->update($validated);
@@ -77,7 +79,7 @@ class BinController extends Controller
     {
         // 1. Buat URL lengkap yang akan disematkan di QR Code.
         // Ini akan mengarah ke landing page dengan parameter qr_token.
-        $url = route('landing', ['qr_token' => $bin->qr_token]);
+        $url = route('qr.show', ['bin' => $bin]);
 
         // 2. Kirim data bin dan URL ke view
         return view('officer.bins.qr_code', compact('bin', 'url'));

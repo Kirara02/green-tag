@@ -1,31 +1,22 @@
 @php
     $breadcrumb = [
+        ['label' => __('system.breadcrumb_dashboard'), 'url' => route('officer.dashboard.index')],
+        ['label' => __('system.breadcrumb_operational'), 'url' => '#'],
         [
-            'label' => 'Dashboard',
-            'url' => route('officer.dashboard.index'),
-        ],
-        [
-            'label' => 'Operasional',
-            'url' => '#',
-        ],
-        [
-            'label' => 'Manajemen Edukasi',
-            'url' => '#',
+            'label' => __('system.breadcrumb_education_management'),
+            'url' => route('officer.informations.index'),
         ],
     ];
 @endphp
 
 <x-layout :breadcrumb="$breadcrumb">
-    <x-slot:page_title>
-        Manajemen Edukasi
-    </x-slot>
+    <x-slot:page_title>@lang('system.educations_title')</x-slot>
 
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <div>
-                <h1 class="text-2xl font-bold">Manajemen Edukasi</h1>
-                <p class="text-sm text-gray-500 mt-1">Buat dan kelola artikel edukasi, berita, atau
-                    pengumuman.</p>
+                <h1 class="text-2xl font-bold">@lang('system.educations_title')</h1>
+                <p class="text-sm text-gray-500 mt-1">@lang('system.educations_subtitle')</p>
             </div>
             <a href="{{ route('officer.informations.create') }}"
                 class="px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2"><svg
@@ -33,7 +24,7 @@
                     class="w-5 h-5">
                     <path
                         d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                </svg>Tambah Artikel</a>
+                </svg>@lang('system.educations_add_new')</a>
         </div>
 
         @if (session('success'))
@@ -46,12 +37,12 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr class="text-left text-xs font-medium text-gray-500 uppercase">
-                            <th class="px-6 py-3">Gambar</th>
-                            <th class="px-6 py-3">Judul</th>
-                            <th class="px-6 py-3">Kategori</th>
-                            <th class="px-6 py-3">Status</th>
-                            <th class="px-6 py-3">Penulis</th>
-                            <th class="px-6 py-3">Aksi</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_image')</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_title')</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_category')</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_status')</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_author')</th>
+                            <th class="px-6 py-3">@lang('system.educations_table_actions')</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
@@ -60,39 +51,38 @@
                                 <td class="px-6 py-4">
                                     @if ($article->image)
                                         <img src="{{ asset('storage/' . $article->image) }}"
-                                            alt="" class="h-10 w-16 object-cover rounded">
-                                    @else
-                                        <div
+                                            alt=""
+                                        class="h-10 w-16 object-cover rounded">@else<div
                                             class="h-10 w-16 bg-gray-100 rounded flex items-center justify-center text-gray-400">
                                             No Img</div>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900">
                                     {{ Str::limit($article->title, 40) }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $article->category }}
-                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">@lang('public.category_' . $article->category)</td>
                                 <td class="px-6 py-4">
                                     @if ($article->status == 'published')
-                                    <span class="badge-green">Published</span>@else<span
-                                            class="badge-yellow">Draft</span>
+                                        <span
+                                        class="badge-green">@lang('system.form_status_published')</span>@else<span
+                                            class="badge-yellow">@lang('system.form_status_draft')</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $article->author->name ?? 'N/A' }}</td>
                                 <td class="px-6 py-4 space-x-2 text-sm">
                                     <a href="{{ route('officer.informations.edit', $article->id) }}"
-                                        class="text-indigo-600">Edit</a>
+                                        class="text-indigo-600">@lang('system.action_edit')</a>
                                     <form
                                         action="{{ route('officer.informations.destroy', $article->id) }}"
                                         method="POST" class="inline"
-                                        onsubmit="return confirm('Hapus artikel ini?');">@csrf
+                                        onsubmit="return confirm('@lang('system.educations_delete_confirm')');">@csrf
                                         @method('DELETE')<button type="submit"
-                                            class="text-red-600">Hapus</button></form>
+                                            class="text-red-600">@lang('system.action_delete')</button></form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-4 text-center">Belum ada artikel.
+                                <td colspan="6" class="px-6 py-4 text-center">@lang('system.educations_not_found')
                                 </td>
                             </tr>
                         @endforelse

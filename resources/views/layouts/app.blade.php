@@ -122,48 +122,66 @@
             <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
                 <div class="px-4 h-16 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <button @click="sidebarOpen = true"
-                            class="md:hidden p-2 rounded hover:bg-slate-100" aria-label="Open sidebar">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                    clip-rule="evenodd" />
+                        {{-- Tombol toggle sekarang ada di header --}}
+                        <button @click="desktopSidebarOpen = !desktopSidebarOpen"
+                            class="hidden md:block p-2 rounded-full hover:bg-slate-100"
+                            aria-label="Toggle sidebar">
+                            <svg x-show="desktopSidebarOpen" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <svg x-show="!desktopSidebarOpen" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h7" />
                             </svg>
                         </button>
-                        <span class="font-semibold text-lg">{{ $page_title ?? 'Dasbor' }}</span>
+                        <button @click="mobileSidebarOpen = true"
+                            class="md:hidden p-2 rounded-full hover:bg-slate-100"
+                            aria-label="Open sidebar">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h7" />
+                            </svg>
+                        </button>
                     </div>
 
-                    <!-- User Dropdown Menu -->
-                    <div x-data="{ dropdownOpen: false }" class="relative">
-                        <button @click="dropdownOpen = !dropdownOpen"
-                            class="flex items-center gap-2 rounded-full p-1 pr-3 hover:bg-slate-100">
-                            <span
-                                class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-500 text-white font-semibold">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                            <span
-                                class="hidden sm:block text-sm font-medium">{{ Auth::user()->name }}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4 text-slate-500 hidden sm:block" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <div x-show="dropdownOpen" @click.away="dropdownOpen = false" x-transition
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 origin-top-right">
-                            <div class="px-4 py-2 text-xs text-slate-500">{{ Auth::user()->email }}
+                    <div class="flex items-center gap-4">
+                        {{-- INTEGRASI LANGUAGE SWITCHER DI SINI --}}
+                        <x-language-switcher />
+
+                        <div x-data="{ dropdownOpen: false }" class="relative">
+                            <button @click="dropdownOpen = !dropdownOpen"
+                                class="flex items-center gap-2 rounded-full p-1 pr-3 hover:bg-slate-100">
+                                <span
+                                    class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-500 text-white font-semibold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                <span
+                                    class="hidden sm:block text-sm font-medium">{{ Auth::user()->name }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 text-slate-500 hidden sm:block" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div x-show="dropdownOpen" @click.away="dropdownOpen = false" x-transition
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 origin-top-right">
+                                <div class="px-4 py-2 text-xs text-slate-500">{{ Auth::user()->email }}
+                                </div>
+                                <div class="border-t border-slate-100"></div>
+                                <form method="POST" action="{{ route('logout') }}">@csrf<button
+                                        type="submit"
+                                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"><svg
+                                            xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                                                clip-rule="evenodd" />
+                                        </svg><span>Logout</span></button></form>
                             </div>
-                            <div class="border-t border-slate-100"></div>
-                            <form method="POST" action="{{ route('logout') }}">@csrf<button
-                                    type="submit"
-                                    class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"><svg
-                                        xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                                            clip-rule="evenodd" />
-                                    </svg><span>Logout</span></button></form>
                         </div>
                     </div>
                 </div>

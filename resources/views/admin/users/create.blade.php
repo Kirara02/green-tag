@@ -1,35 +1,19 @@
 @php
     $breadcrumb = [
-        [
-            'label' => 'Dashboard',
-            'url' => route('admin.dashboard.index'),
-        ],
-        [
-            'label' => 'Sistem',
-            'url' => '#',
-        ],
-        [
-            'label' => 'Manajemen Pengguna',
-            'url' => route('admin.users.index'),
-        ],
-        [
-            'label' => 'Tambah Pengguna Baru',
-            'url' => '#',
-        ],
+        ['label' => __('system.breadcrumb_dashboard'), 'url' => route('admin.dashboard.index')],
+        ['label' => __('system.breadcrumb_system'), 'url' => '#'],
+        ['label' => __('system.breadcrumb_user_management'), 'url' => route('admin.users.index')],
+        ['label' => __('system.breadcrumb_add_user'), 'url' => '#'],
     ];
 @endphp
 
 <x-layout :breadcrumb="$breadcrumb">
-    <x-slot:page_title>
-        Tambah Pengguna Baru
-    </x-slot>
+    <x-slot:page_title>@lang('system.users_create_title')</x-slot>
 
     <div class="max-w-4xl mx-auto">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Tambah Pengguna Baru
-            </h1>
-            <p class="text-sm text-gray-500 mt-1">Buat akun baru untuk admin atau
-                petugas.</p>
+            <h1 class="text-2xl font-bold text-gray-900">@lang('system.users_create_title')</h1>
+            <p class="text-sm text-gray-500 mt-1">@lang('system.users_create_subtitle')</p>
         </div>
 
         @if ($errors->any())
@@ -46,62 +30,54 @@
         <form action="{{ route('admin.users.store') }}" method="POST">
             @csrf
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                {{-- Kolom Kiri: Detail Pengguna --}}
                 <div class="lg:col-span-2 bg-white shadow-md rounded-lg p-6 space-y-6">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nama
-                            Lengkap</label>
+                        <label for="name"
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_full_name')</label>
                         <input type="text" id="name" name="name"
                             value="{{ old('name') }}" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Alamat
-                            Email</label>
+                        <label for="email"
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_email_address')</label>
                         <input type="email" id="email" name="email"
                             value="{{ old('email') }}" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                     </div>
                 </div>
-
-                {{-- Kolom Kanan: Role & Password --}}
                 <div class="lg:col-span-1 bg-white shadow-md rounded-lg p-6 space-y-6">
                     <div>
                         <label for="role"
-                            class="block text-sm font-medium text-gray-700">Role</label>
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_role')</label>
                         <select id="role" name="role" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
-                            <option value="officer" @selected(old('role') == 'officer')>Petugas (Officer)
+                            <option value="officer" @selected(old('role') == 'officer')>@lang('system.role_option_officer')
                             </option>
-                            <option value="admin" @selected(old('role') == 'admin')>
-                                Admin</option>
+                            <option value="admin" @selected(old('role') == 'admin')>@lang('system.role_option_admin')
+                            </option>
                         </select>
                     </div>
                     <div>
                         <label for="password"
-                            class="block text-sm font-medium text-gray-700">Password</label>
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_password')</label>
                         <input type="password" id="password" name="password" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                     </div>
                     <div>
                         <label for="password_confirmation"
-                            class="block text-sm font-medium text-gray-700">Konfirmasi
-                            Password</label>
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_confirm_password')</label>
                         <input type="password" id="password_confirmation"
                             name="password_confirmation" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                     </div>
                 </div>
             </div>
-
-            {{-- Tombol Aksi di bawah --}}
             <div class="mt-8 flex items-center gap-4">
                 <button type="submit"
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">Simpan
-                    Pengguna</button>
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition-colors">@lang('system.btn_save_user')</button>
                 <a href="{{ route('admin.users.index') }}"
-                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium">Batal</a>
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium transition-colors">@lang('system.btn_cancel')</a>
             </div>
         </form>
     </div>

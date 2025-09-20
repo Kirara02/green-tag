@@ -28,10 +28,7 @@
                         class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50 {{ request()->routeIs('educations.public.*') || request()->routeIs('public.article') ? 'text-green-600 bg-green-50' : '' }}">
                         {{ __('navbar.education') }}
                     </a>
-                    <a href="{{ route('landing') }}#lapor"
-                        class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50">
-                        {{ __('navbar.report') }}
-                    </a>
+
                 </div>
             </div>
 
@@ -93,10 +90,7 @@
                 class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50 {{ request()->routeIs('educations.public.*') || request()->routeIs('public.article') ? 'text-green-600 bg-green-50' : '' }}">
                 {{ __('navbar.education') }}
             </a>
-            <a href="{{ route('landing') }}#lapor" @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-green-600 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-green-50">
-                {{ __('navbar.report') }}
-            </a>
+
             <div class="pt-4 border-t border-gray-200 space-y-3">
                 <!-- Language Switcher for Mobile -->
                 <div class="flex justify-center space-x-2">

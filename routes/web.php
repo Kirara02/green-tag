@@ -18,6 +18,7 @@ use App\Http\Controllers\Officer\ScheduleController;
 use App\Http\Controllers\Officer\ComplaintController;
 use App\Http\Controllers\Officer\InformationController;
 
+use App\Models\Bin;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ use App\Http\Controllers\Officer\InformationController;
 // == RUTE PUBLIK ==
 Route::get('/', [PublicController::class, 'landing'])->name('landing');
 Route::post('/complaints', [PublicController::class, 'storeComplaint'])->name('complaints.store');
+
+Route::get('/qr/{bin:qr_token}', [PublicController::class, 'showQrPage'])->name('qr.show');
 
 // == RUTE LANGUAGE SWITCHING ==
 Route::get('/lang/{locale}', function ($locale) {

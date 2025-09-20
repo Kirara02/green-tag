@@ -57,9 +57,9 @@
                     <select id="categoryFilter"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                         <option value="">{{ __('public.all_categories') }}</option>
-                        <option value="Edukasi">{{ __('public.category_education') }}</option>
-                        <option value="Berita">{{ __('public.category_news') }}</option>
-                        <option value="Pengumuman">{{ __('public.category_announcement') }}</option>
+                        <option value="education">{{ __('public.category_education') }}</option>
+                        <option value="news">{{ __('public.category_news') }}</option>
+                        <option value="announcement">{{ __('public.category_announcement') }}</option>
                     </select>
                 </div>
             </div>
