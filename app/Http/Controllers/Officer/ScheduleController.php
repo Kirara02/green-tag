@@ -39,7 +39,9 @@ class ScheduleController extends Controller
         // 'attach' akan menambahkan relasi di tabel pivot (route_location)
         $route->locations()->attach($validated['locations']);
 
-        return redirect()->route('officer.schedules.index')->with('success', 'Schedule created successfully.');
+        return redirect()
+            ->route('officer.schedules.index')
+            ->with('success', 'Schedule created successfully.');
     }
 
     public function edit(CollectionRoute $schedule)
@@ -48,8 +50,11 @@ class ScheduleController extends Controller
         // 'pluck('id')->toArray()' akan mengambil semua ID lokasi yang sudah terhubung dengan rute ini
         // Ini akan kita gunakan untuk menandai checkbox di form edit.
         $selectedLocations = $schedule->locations->pluck('id')->toArray();
-        
-        return view('officer.schedules.edit', compact('schedule', 'locations', 'selectedLocations'));
+
+        return view(
+            'officer.schedules.edit',
+            compact('schedule', 'locations', 'selectedLocations'),
+        );
     }
 
     public function update(Request $request, CollectionRoute $schedule)
@@ -70,7 +75,9 @@ class ScheduleController extends Controller
         // agar cocok dengan array yang kita berikan.
         $schedule->locations()->sync($validated['locations']);
 
-        return redirect()->route('officer.schedules.index')->with('success', 'Schedule updated successfully.');
+        return redirect()
+            ->route('officer.schedules.index')
+            ->with('success', 'Schedule updated successfully.');
     }
 
     public function destroy(CollectionRoute $schedule)
@@ -79,6 +86,8 @@ class ScheduleController extends Controller
         // semua relasi di tabel pivot akan otomatis terhapus saat rute dihapus.
         $schedule->delete();
 
-        return redirect()->route('officer.schedules.index')->with('success', 'Schedule deleted successfully.');
+        return redirect()
+            ->route('officer.schedules.index')
+            ->with('success', 'Schedule deleted successfully.');
     }
 }

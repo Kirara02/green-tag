@@ -18,8 +18,8 @@ class ComplaintController extends Controller
         // Eager load relasi untuk efisiensi query
         // 'bin.location' akan mengambil data tong sampah DAN lokasi tong sampah tersebut
         $complaints = Complaint::with('bin.location')
-                                ->latest() // Urutkan dari yang terbaru
-                                ->paginate(15);
+            ->latest() // Urutkan dari yang terbaru
+            ->paginate(15);
 
         return view('officer.complaints.index', compact('complaints'));
     }
@@ -59,11 +59,18 @@ class ComplaintController extends Controller
 
         // Jika status diubah menjadi 'resolved', pastikan catatan diisi
         if ($validated['status'] == 'resolved' && empty($validated['resolution_notes'])) {
-            return back()->withErrors(['resolution_notes' => 'Resolution notes are required when resolving a complaint.'])->withInput();
+            return back()
+                ->withErrors([
+                    'resolution_notes' =>
+                        'Resolution notes are required when resolving a complaint.',
+                ])
+                ->withInput();
         }
-        
+
         $complaint->update($validated);
 
-        return redirect()->route('officer.complaints.index')->with('success', 'Complaint status updated successfully.');
+        return redirect()
+            ->route('officer.complaints.index')
+            ->with('success', 'Complaint status updated successfully.');
     }
 }

@@ -43,7 +43,9 @@ class InformationController extends Controller
 
         Information::create($validated);
 
-        return redirect()->route('officer.informations.index')->with('success', 'Article created successfully.');
+        return redirect()
+            ->route('officer.informations.index')
+            ->with('success', 'Article created successfully.');
     }
 
     public function edit(Information $information)
@@ -55,7 +57,12 @@ class InformationController extends Controller
     {
         $validated = $request->validate([
             // --- PERUBAHAN DI SINI ---
-            'title' => ['required', 'string', 'max:255', Rule::unique('informations')->ignore($information->id)],
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('informations')->ignore($information->id),
+            ],
             'content' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'category' => ['required', Rule::in(['Edukasi', 'Berita', 'Pengumuman'])],
@@ -73,7 +80,9 @@ class InformationController extends Controller
 
         $information->update($validated);
 
-        return redirect()->route('officer.informations.index')->with('success', 'Article updated successfully.');
+        return redirect()
+            ->route('officer.informations.index')
+            ->with('success', 'Article updated successfully.');
     }
 
     public function destroy(Information $information)
@@ -81,9 +90,11 @@ class InformationController extends Controller
         if ($information->image) {
             Storage::disk('public')->delete($information->image);
         }
-        
+
         $information->delete();
 
-        return redirect()->route('officer.informations.index')->with('success', 'Article deleted successfully.');
+        return redirect()
+            ->route('officer.informations.index')
+            ->with('success', 'Article deleted successfully.');
     }
 }

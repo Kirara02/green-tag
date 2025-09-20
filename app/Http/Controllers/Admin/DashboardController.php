@@ -22,9 +22,9 @@ class DashboardController extends Controller
 
         // 2. Data untuk Grafik Tren Pengaduan (7 Hari Terakhir)
         $complaints_per_day = Complaint::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('count(*) as count')
-            )
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('count(*) as count'),
+        )
             ->where('created_at', '>=', now()->subDays(6))
             ->groupBy('date')
             ->orderBy('date', 'asc')
@@ -47,12 +47,15 @@ class DashboardController extends Controller
         // 4. Pengaduan Terbaru
         $recent_complaints = Complaint::with('bin.location')->latest()->take(5)->get();
 
-        return view('admin.dashboard.index', compact(
-            'stats', 
-            'recent_complaints', 
-            'chart_labels', 
-            'chart_values',
-            'category_distribution'
-        ));
+        return view(
+            'admin.dashboard.index',
+            compact(
+                'stats',
+                'recent_complaints',
+                'chart_labels',
+                'chart_values',
+                'category_distribution',
+            ),
+        );
     }
 }

@@ -23,24 +23,27 @@ class DashboardController extends Controller
         // 1. STATISTIK UTAMA
         $stats = [
             'new_complaints_total' => Complaint::where('status', 'new')->count(),
-            'my_in_progress' => Complaint::where('status', 'in_progress')->where('handler_id', $officerId)->count(),
-            'today_schedules_count' => CollectionRoute::where('day', 'like', '%' . $today . '%')->count(),
+            'my_in_progress' => Complaint::where('status', 'in_progress')
+                ->where('handler_id', $officerId)
+                ->count(),
+            'today_schedules_count' => CollectionRoute::where(
+                'day',
+                'like',
+                '%' . $today . '%',
+            )->count(),
         ];
 
         // 2. DATA UNTUK GRAFIK TUGAS AKTIF (DOUGHNUT)
         $active_tasks_chart = [
             'labels' => ['Pengaduan Baru (Belum Ditugaskan)', 'Tugas Saya (Sedang Dikerjakan)'],
-            'values' => [
-                $stats['new_complaints_total'],
-                $stats['my_in_progress']
-            ]
+            'values' => [$stats['new_complaints_total'], $stats['my_in_progress']],
         ];
 
         // 3. DATA UNTUK GRAFIK KINERJA MINGGUAN (BAR)
         $performance_per_day = Complaint::select(
-                DB::raw('DATE(updated_at) as date'),
-                DB::raw('count(*) as count')
-            )
+            DB::raw('DATE(updated_at) as date'),
+            DB::raw('count(*) as count'),
+        )
             ->where('status', 'resolved')
             ->where('handler_id', $officerId) // Hanya pengaduan yang diselesaikan oleh officer ini
             ->where('updated_at', '>=', now()->subDays(6))
@@ -59,26 +62,28 @@ class DashboardController extends Controller
 
         // 4. DAFTAR TUGAS
         $recent_complaints = Complaint::where('status', 'new')
-                                       ->orWhere(function($query) use ($officerId) {
-                                            $query->where('status', 'in_progress')
-                                                  ->where('handler_id', $officerId);
-                                       })
-                                       ->with('bin.location')
-                                       ->latest()
-                                       ->take(5)
-                                       ->get();
-        
-        $today_schedules = CollectionRoute::where('day', 'like', '%' . $today . '%')
-                                          ->orderBy('start_time')
-                                          ->get();
+            ->orWhere(function ($query) use ($officerId) {
+                $query->where('status', 'in_progress')->where('handler_id', $officerId);
+            })
+            ->with('bin.location')
+            ->latest()
+            ->take(5)
+            ->get();
 
-        return view('officer.dashboard.index', compact(
-            'stats', 
-            'recent_complaints', 
-            'today_schedules',
-            'active_tasks_chart',
-            'performance_chart_labels',
-            'performance_chart_values'
-        ));
+        $today_schedules = CollectionRoute::where('day', 'like', '%' . $today . '%')
+            ->orderBy('start_time')
+            ->get();
+
+        return view(
+            'officer.dashboard.index',
+            compact(
+                'stats',
+                'recent_complaints',
+                'today_schedules',
+                'active_tasks_chart',
+                'performance_chart_labels',
+                'performance_chart_values',
+            ),
+        );
     }
 }

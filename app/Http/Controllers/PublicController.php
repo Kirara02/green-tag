@@ -19,7 +19,7 @@ class PublicController extends Controller
     {
         // Ambil 3 artikel terbaru yang sudah di-publish
         $articles = Information::where('status', 'published')->latest()->take(3)->get();
-        
+
         // Ambil 3 jadwal/rute terbaru
         $schedules = CollectionRoute::with('locations')->latest()->take(3)->get();
 
@@ -39,22 +39,22 @@ class PublicController extends Controller
     public function showSchedules(Request $request)
     {
         $query = CollectionRoute::with('locations');
-        
+
         // Filter berdasarkan pencarian nama area
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        
+
         // Filter berdasarkan hari
         if ($request->filled('day')) {
             $query->where('day', $request->day);
         }
-        
+
         $schedules = $query->latest()->paginate(9);
-        
+
         // Tambahkan parameter query ke pagination links
         $schedules->appends($request->query());
-        
+
         return view('public.schedules', compact('schedules'));
     }
 
@@ -64,26 +64,29 @@ class PublicController extends Controller
     public function showEducations(Request $request)
     {
         $query = Information::where('status', 'published');
-        
+
         // Filter berdasarkan pencarian judul atau konten
         if ($request->filled('search')) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
-                $q->where('title', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('content', 'like', '%' . $searchTerm . '%');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', '%' . $searchTerm . '%')->orWhere(
+                    'content',
+                    'like',
+                    '%' . $searchTerm . '%',
+                );
             });
         }
-        
+
         // Filter berdasarkan kategori
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
-        
+
         $articles = $query->latest()->paginate(9);
-        
+
         // Tambahkan parameter query ke pagination links
         $articles->appends($request->query());
-        
+
         return view('public.educations', compact('articles'));
     }
 
@@ -93,18 +96,18 @@ class PublicController extends Controller
     public function showArticle($slug)
     {
         $article = Information::where('slug', $slug)
-                             ->where('status', 'published')
-                             ->with('author')
-                             ->firstOrFail();
-        
+            ->where('status', 'published')
+            ->with('author')
+            ->firstOrFail();
+
         // Ambil artikel terkait berdasarkan kategori
         $relatedArticles = Information::where('category', $article->category)
-                                     ->where('id', '!=', $article->id)
-                                     ->where('status', 'published')
-                                     ->latest()
-                                     ->take(3)
-                                     ->get();
-        
+            ->where('id', '!=', $article->id)
+            ->where('status', 'published')
+            ->latest()
+            ->take(3)
+            ->get();
+
         return view('public.article-detail', compact('article', 'relatedArticles'));
     }
 
@@ -113,17 +116,16 @@ class PublicController extends Controller
      */
     public function showSchedule($id)
     {
-        $schedule = CollectionRoute::with(['locations', 'officerInCharge'])
-                                  ->findOrFail($id);
-        
+        $schedule = CollectionRoute::with(['locations', 'officerInCharge'])->findOrFail($id);
+
         // Ambil jadwal terkait berdasarkan hari yang sama
         $relatedSchedules = CollectionRoute::where('day', $schedule->day)
-                                          ->where('id', '!=', $schedule->id)
-                                          ->with('locations')
-                                          ->latest()
-                                          ->take(3)
-                                          ->get();
-        
+            ->where('id', '!=', $schedule->id)
+            ->with('locations')
+            ->latest()
+            ->take(3)
+            ->get();
+
         return view('public.schedule-detail', compact('schedule', 'relatedSchedules'));
     }
 
@@ -133,15 +135,15 @@ class PublicController extends Controller
     public function getArticlesByCategory(Request $request)
     {
         $category = $request->get('category');
-        
+
         $articles = Information::where('status', 'published')
-                              ->when($category, function($query, $category) {
-                                  return $query->where('category', $category);
-                              })
-                              ->latest()
-                              ->take(6)
-                              ->get(['id', 'title', 'slug', 'category', 'created_at']);
-        
+            ->when($category, function ($query, $category) {
+                return $query->where('category', $category);
+            })
+            ->latest()
+            ->take(6)
+            ->get(['id', 'title', 'slug', 'category', 'created_at']);
+
         return response()->json($articles);
     }
 
@@ -151,15 +153,15 @@ class PublicController extends Controller
     public function getSchedulesByDay(Request $request)
     {
         $day = $request->get('day');
-        
+
         $schedules = CollectionRoute::with('locations')
-                                   ->when($day, function($query, $day) {
-                                       return $query->where('day', $day);
-                                   })
-                                   ->latest()
-                                   ->take(6)
-                                   ->get(['id', 'name', 'day', 'start_time', 'end_time']);
-        
+            ->when($day, function ($query, $day) {
+                return $query->where('day', $day);
+            })
+            ->latest()
+            ->take(6)
+            ->get(['id', 'name', 'day', 'start_time', 'end_time']);
+
         return response()->json($schedules);
     }
 
@@ -172,20 +174,27 @@ class PublicController extends Controller
     public function storeComplaint(Request $request)
     {
         // --- 1. Validasi Input ---
-        $validated = $request->validate([
-            'qr_token' => ['required', 'string', 'exists:bins,qr_token'],
-            'reporter_name' => ['required', 'string', 'max:255'],
-            'reporter_phone' => ['nullable', 'string', 'max:20'],
-            'address_detail' => ['required', 'string', 'max:1000'],
-            'category' => ['required', Rule::in(['garbage_pile', 'odor', 'full_bin', 'broken_bin', 'other'])],
-            'description' => ['required', 'string', 'max:2000'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ], [
-            'qr_token.exists' => 'The provided QR Code is invalid or not registered in our system.'
-        ]);
+        $validated = $request->validate(
+            [
+                'qr_token' => ['required', 'string', 'exists:bins,qr_token'],
+                'reporter_name' => ['required', 'string', 'max:255'],
+                'reporter_phone' => ['nullable', 'string', 'max:20'],
+                'address_detail' => ['required', 'string', 'max:1000'],
+                'category' => [
+                    'required',
+                    Rule::in(['garbage_pile', 'odor', 'full_bin', 'broken_bin', 'other']),
+                ],
+                'description' => ['required', 'string', 'max:2000'],
+                'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            ],
+            [
+                'qr_token.exists' =>
+                    'The provided QR Code is invalid or not registered in our system.',
+            ],
+        );
 
         // --- 2. Cari Bin berdasarkan QR Token ---
-        // `firstOrFail` akan otomatis menghentikan proses jika token tidak valid, 
+        // `firstOrFail` akan otomatis menghentikan proses jika token tidak valid,
         // meskipun validasi 'exists' sudah menangkapnya. Ini lapisan keamanan tambahan.
         $bin = Bin::where('qr_token', $validated['qr_token'])->firstOrFail();
 
@@ -211,6 +220,11 @@ class PublicController extends Controller
 
         // --- 5. Redirect Kembali dengan Pesan Sukses ---
         // Menggunakan with() akan membuat session flash yang hanya tersedia untuk request berikutnya.
-        return redirect()->route('landing')->with('success', 'Your complaint has been submitted successfully. Thank you for your report!');
+        return redirect()
+            ->route('landing')
+            ->with(
+                'success',
+                'Your complaint has been submitted successfully. Thank you for your report!',
+            );
     }
 }

@@ -1,0 +1,17 @@
+{
+    "printWidth": 100,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "plugins": [
+        "@prettier/plugin-php",
+        "@shufo/prettier-plugin-blade",
+        "prettier-plugin-tailwindcss"
+    ],
+    "phpVersion": "8.2"
+}

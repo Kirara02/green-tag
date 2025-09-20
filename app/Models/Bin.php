@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bin extends Model
 {
-    protected $fillable = [
-        'bin_location_id',
-        'code',
-        'qr_token',
-        'description',
-    ];
+    protected $fillable = ['bin_location_id', 'code', 'qr_token', 'description'];
 
     /**
      * Relasi: Sebuah Bin dimiliki oleh satu BinLocation.
@@ -44,10 +39,10 @@ class Bin extends Model
      */
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where(function($q) use ($searchTerm) {
+        return $query->where(function ($q) use ($searchTerm) {
             $q->where('code', 'like', '%' . $searchTerm . '%')
-              ->orWhere('description', 'like', '%' . $searchTerm . '%')
-              ->orWhere('qr_token', 'like', '%' . $searchTerm . '%');
+                ->orWhere('description', 'like', '%' . $searchTerm . '%')
+                ->orWhere('qr_token', 'like', '%' . $searchTerm . '%');
         });
     }
 
@@ -65,17 +60,19 @@ class Bin extends Model
     public function getStatusAttribute()
     {
         $latestComplaint = $this->complaints()->latest()->first();
-        
+
         if (!$latestComplaint) {
             return 'good';
         }
-        
+
         // Jika ada complaint dalam 7 hari terakhir yang belum resolved
-        if ($latestComplaint->created_at->isAfter(now()->subDays(7)) && 
-            in_array($latestComplaint->status, ['new', 'in_progress'])) {
+        if (
+            $latestComplaint->created_at->isAfter(now()->subDays(7)) &&
+            in_array($latestComplaint->status, ['new', 'in_progress'])
+        ) {
             return 'needs_attention';
         }
-        
+
         return 'good';
     }
 

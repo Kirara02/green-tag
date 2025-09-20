@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         // Ambil semua user, urutkan dari yang terbaru, dan gunakan pagination
-        $users = User::latest()->paginate(10); 
+        $users = User::latest()->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
@@ -48,7 +48,9 @@ class UserController extends Controller
             'role' => $validated['role'],
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully!');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User created successfully!');
     }
 
     /**
@@ -86,7 +88,9 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User updated successfully!');
     }
 
     /**
@@ -101,11 +105,16 @@ class UserController extends Controller
 
         // Kondisi 2: Admin tidak bisa menghapus akun admin lainnya.
         if ($user->role == 'admin') {
-            return back()->with('error', 'Akun Admin tidak dapat dihapus. Anda bisa men-downgrade rolenya terlebih dahulu jika perlu.');
+            return back()->with(
+                'error',
+                'Akun Admin tidak dapat dihapus. Anda bisa men-downgrade rolenya terlebih dahulu jika perlu.',
+            );
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Akun petugas berhasil dihapus!');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'Akun petugas berhasil dihapus!');
     }
 }

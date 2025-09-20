@@ -39,7 +39,9 @@ class BinController extends Controller
 
         Bin::create($validated);
 
-        return redirect()->route('officer.bins.index')->with('success', 'Bin created successfully.');
+        return redirect()
+            ->route('officer.bins.index')
+            ->with('success', 'Bin created successfully.');
     }
 
     public function edit(Bin $bin)
@@ -58,13 +60,17 @@ class BinController extends Controller
 
         $bin->update($validated);
 
-        return redirect()->route('officer.bins.index')->with('success', 'Bin updated successfully.');
+        return redirect()
+            ->route('officer.bins.index')
+            ->with('success', 'Bin updated successfully.');
     }
 
     public function destroy(Bin $bin)
     {
         $bin->delete();
-        return redirect()->route('officer.bins.index')->with('success', 'Bin deleted successfully.');
+        return redirect()
+            ->route('officer.bins.index')
+            ->with('success', 'Bin deleted successfully.');
     }
 
     public function showQrCode(Bin $bin)

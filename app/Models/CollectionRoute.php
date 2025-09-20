@@ -10,13 +10,7 @@ use App\Models\BinLocation;
 
 class CollectionRoute extends Model
 {
-    protected $fillable = [
-        'name',
-        'day',
-        'start_time',
-        'end_time',
-        'officer_in_charge_id',
-    ];
+    protected $fillable = ['name', 'day', 'start_time', 'end_time', 'officer_in_charge_id'];
 
     /**
      * Relasi: Sebuah CollectionRoute ditugaskan pada satu User (petugas).
@@ -32,8 +26,8 @@ class CollectionRoute extends Model
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(BinLocation::class, 'route_location')
-                    ->withPivot('sequence') // Mengambil kolom 'sequence' dari tabel pivot
-                    ->orderBy('sequence');   // Mengurutkan lokasi berdasarkan urutan
+            ->withPivot('sequence') // Mengambil kolom 'sequence' dari tabel pivot
+            ->orderBy('sequence'); // Mengurutkan lokasi berdasarkan urutan
     }
 
     /**
@@ -57,7 +51,9 @@ class CollectionRoute extends Model
      */
     public function getFormattedTimeAttribute()
     {
-        return date('H:i', strtotime($this->start_time)) . ' - ' . date('H:i', strtotime($this->end_time));
+        return date('H:i', strtotime($this->start_time)) .
+            ' - ' .
+            date('H:i', strtotime($this->end_time));
     }
 
     /**
@@ -86,7 +82,7 @@ class CollectionRoute extends Model
         $now = now();
         $start = $this->created_at->setTimeFromTimeString($this->start_time);
         $end = $this->created_at->setTimeFromTimeString($this->end_time);
-        
+
         if ($now < $start) {
             return 'upcoming';
         } elseif ($now >= $start && $now <= $end) {

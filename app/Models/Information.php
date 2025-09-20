@@ -8,18 +8,9 @@ use App\Models\User;
 
 class Information extends Model
 {
-
     protected $table = 'informations';
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'content',
-        'image',
-        'category',
-        'status',
-        'author_id',
-    ];
+    protected $fillable = ['title', 'slug', 'content', 'image', 'category', 'status', 'author_id'];
 
     /**
      * Relasi: Sebuah artikel Informasi ditulis oleh satu User.
@@ -42,9 +33,12 @@ class Information extends Model
      */
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where(function($q) use ($searchTerm) {
-            $q->where('title', 'like', '%' . $searchTerm . '%')
-              ->orWhere('content', 'like', '%' . $searchTerm . '%');
+        return $query->where(function ($q) use ($searchTerm) {
+            $q->where('title', 'like', '%' . $searchTerm . '%')->orWhere(
+                'content',
+                'like',
+                '%' . $searchTerm . '%',
+            );
         });
     }
 

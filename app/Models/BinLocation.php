@@ -9,13 +9,7 @@ use App\Models\CollectionRoute;
 
 class BinLocation extends Model
 {
-    protected $fillable = [
-        'code',
-        'name',
-        'address',
-        'latitude',
-        'longitude',
-    ];
+    protected $fillable = ['code', 'name', 'address', 'latitude', 'longitude'];
 
     /**
      * Relasi: Satu BinLocation memiliki banyak Bins.
@@ -31,7 +25,7 @@ class BinLocation extends Model
     public function collectionRoutes(): BelongsToMany
     {
         return $this->belongsToMany(CollectionRoute::class, 'route_location')
-                    ->withPivot('sequence') // Mengambil kolom 'sequence' dari tabel pivot
-                    ->orderBy('sequence');   // Mengurutkan berdasarkan urutan pengambilan
+            ->withPivot('sequence') // Mengambil kolom 'sequence' dari tabel pivot
+            ->orderBy('sequence'); // Mengurutkan berdasarkan urutan pengambilan
     }
 }

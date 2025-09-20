@@ -2,20 +2,20 @@
     $breadcrumb = [
         [
             'label' => 'Dashboard',
-            'url' => route('officer.dashboard.index')
+            'url' => route('officer.dashboard.index'),
         ],
         [
             'label' => 'Master Data',
-            'url' => '#'
+            'url' => '#',
         ],
         [
             'label' => 'Manajemen Lokasi',
-            'url' => route('officer.locations.index')
+            'url' => route('officer.locations.index'),
         ],
         [
             'label' => 'Tambah Lokasi Baru',
-            'url' => '#'
-        ]
+            'url' => '#',
+        ],
     ];
 @endphp
 
@@ -29,7 +29,8 @@
 
         <div class="bg-white shadow-md rounded-lg p-6">
             @if ($errors->any())
-                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md" role="alert">
+                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md"
+                    role="alert">
                     <ul class="list-disc list-inside text-sm">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -41,23 +42,32 @@
             <form action="{{ route('officer.locations.store') }}" method="POST" class="space-y-6">
                 @csrf
                 <div>
-                    <label for="code" class="block text-sm font-medium text-gray-700">Kode Lokasi (Unik)</label>
-                    <input type="text" id="code" name="code" value="{{ old('code') }}" required placeholder="e.g., LOC-SAKURA01"
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                    <label for="code" class="block text-sm font-medium text-gray-700">Kode Lokasi
+                        (Unik)</label>
+                    <input type="text" id="code" name="code" value="{{ old('code') }}"
+                        required placeholder="e.g., LOC-SAKURA01"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                 </div>
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nama Lokasi</label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" required placeholder="e.g., Taman Sakura Blok A"
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Nama
+                        Lokasi</label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                        required placeholder="e.g., Taman Sakura Blok A"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                 </div>
                 <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700">Alamat Lengkap</label>
-                    <textarea id="address" name="address" rows="4" required placeholder="Masukkan alamat lengkap lokasi..."
-                              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">{{ old('address') }}</textarea>
+                    <label for="address" class="block text-sm font-medium text-gray-700">Alamat
+                        Lengkap</label>
+                    <textarea id="address" name="address" rows="4" required
+                        placeholder="Masukkan alamat lengkap lokasi..."
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">{{ old('address') }}</textarea>
                 </div>
                 <div class="flex items-center gap-4 pt-4">
-                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">Simpan Lokasi</button>
-                    <a href="{{ route('officer.locations.index') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium">Batal</a>
+                    <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">Simpan
+                        Lokasi</button>
+                    <a href="{{ route('officer.locations.index') }}"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium">Batal</a>
                 </div>
             </form>
         </div>

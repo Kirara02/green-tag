@@ -30,7 +30,9 @@ class BinLocationController extends Controller
 
         BinLocation::create($validated);
 
-        return redirect()->route('officer.locations.index')->with('success', 'Location created successfully.');
+        return redirect()
+            ->route('officer.locations.index')
+            ->with('success', 'Location created successfully.');
     }
 
     public function edit(BinLocation $location)
@@ -43,24 +45,36 @@ class BinLocationController extends Controller
     public function update(Request $request, BinLocation $location)
     {
         $validated = $request->validate([
-            'code' => ['required', 'string', 'max:255', Rule::unique('bin_locations')->ignore($location->id)],
+            'code' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('bin_locations')->ignore($location->id),
+            ],
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:1000'],
         ]);
 
         $location->update($validated);
 
-        return redirect()->route('officer.locations.index')->with('success', 'Location updated successfully.');
+        return redirect()
+            ->route('officer.locations.index')
+            ->with('success', 'Location updated successfully.');
     }
 
     // --- PERUBAHAN DI SINI ---
     public function destroy(BinLocation $location)
     {
         if ($location->bins()->count() > 0) {
-            return back()->with('error', 'Cannot delete location because it still has bins associated with it.');
+            return back()->with(
+                'error',
+                'Cannot delete location because it still has bins associated with it.',
+            );
         }
 
         $location->delete();
-        return redirect()->route('officer.locations.index')->with('success', 'Location deleted successfully.');
+        return redirect()
+            ->route('officer.locations.index')
+            ->with('success', 'Location deleted successfully.');
     }
 }
