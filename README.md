@@ -1,61 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GreenTag - QR Waste Disposal Information System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![GreenTag Poster](https://i.ibb.co/L5B7Nvy/greentag-poster.jpg)
 
-## About Laravel
+GreenTag adalah sistem informasi manajemen sampah berbasis web yang dirancang untuk menjembatani komunikasi antara masyarakat, petugas kebersihan, dan admin fasilitas. Dengan memanfaatkan teknologi QR code, GreenTag menyederhanakan proses pelaporan, menyediakan informasi transparan, dan mendukung operasional pengelolaan sampah yang lebih efisien dan cerdas.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Proyek ini dibangun menggunakan **Laravel 12** dengan arsitektur modern, termasuk Blade, Vite, dan Alpine.js untuk pengalaman pengguna yang interaktif.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Fitur Publik (untuk Masyarakat)
 
-## Learning Laravel
+- **Halaman Landing Informatif:** Menampilkan jadwal pengambilan, artikel edukasi, dan informasi kontak yang dinamis.
+- **Scan QR Code:** Setiap tempat sampah memiliki QR code unik. Saat di-scan, pengguna akan diarahkan ke halaman detail khusus yang berisi:
+    - Informasi jenis sampah yang diterima.
+    - Jadwal pengambilan untuk lokasi tersebut.
+    - Link ke artikel edukasi terkait.
+- **Formulir Pengaduan Cerdas:** Pengguna dapat melaporkan masalah (misalnya, tempat sampah penuh atau rusak) melalui formulir yang secara otomatis melampirkan ID tempat sampah yang relevan.
+- **Dukungan Multi-Bahasa:** Antarmuka publik sepenuhnya mendukung Bahasa Indonesia dan Inggris.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Fitur Panel Admin & Petugas
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Dasbor Visual:**
+    - **Admin:** Melihat statistik keseluruhan sistem, tren pengaduan, dan komposisi kategori dalam bentuk grafik.
+    - **Petugas (Officer):** Melihat ringkasan tugas harian, pengaduan yang perlu ditangani, dan laporan kinerja pribadi.
+- **Manajemen Pengguna (Admin):** Admin dapat membuat, mengedit, dan menghapus akun untuk Petugas. Akun admin dilindungi dari penghapusan.
+- **Manajemen Data Master (Officer & Admin):**
+    - **Lokasi:** CRUD untuk mengelola lokasi fisik tempat sampah.
+    - **Tempat Sampah (Bins):** CRUD untuk mengelola aset tempat sampah, termasuk pembuatan QR token unik secara otomatis dan penentuan jenis sampah.
+    - **Jadwal:** CRUD untuk rute pengambilan sampah, dengan kemampuan untuk menugaskan banyak lokasi ke satu rute.
+- **Manajemen Konten (Officer & Admin):**
+    - **Edukasi:** CRUD untuk artikel, berita, dan pengumuman menggunakan Rich Text Editor (Trix).
+    - **Pengaduan:** Petugas dapat melihat detail pengaduan yang masuk, mengubah statusnya (Baru, Diproses, Selesai, Ditolak), dan menambahkan catatan penyelesaian.
+- **Antarmuka Modern:**
+    - Sidebar yang dapat diciutkan (collapsible) yang mengingat preferensi pengguna.
+    - Indikator loading progress bar di setiap navigasi halaman.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Prasyarat
 
-## Laravel Sponsors
+- PHP >= 8.2
+- Composer
+- Node.js (20.19.x) & NPM
+- Database (PostgreSQL direkomendasikan, tetapi MySQL/MariaDB juga bisa)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Panduan Instalasi
 
-### Premium Partners
+1.  **Clone Repositori**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+    ```bash
+    git clone https://github.com/username/greentag-web.git
+    cd greentag-web
+    ```
 
-## Contributing
+2.  **Instal Dependensi PHP**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```bash
+    composer install
+    ```
 
-## Code of Conduct
+3.  **Instal Dependensi Frontend**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    ```bash
+    npm install
+    ```
 
-## Security Vulnerabilities
+4.  **Konfigurasi Lingkungan**
+    - Salin file `.env.example` menjadi `.env`:
+        ```bash
+        cp .env.example .env
+        ```
+    - Buat kunci aplikasi:
+        ```bash
+        php artisan key:generate
+        ```
+    - Atur koneksi database Anda di dalam file `.env`:
+        ```
+        DB_CONNECTION=pgsql
+        DB_HOST=127.0.0.1
+        DB_PORT=5432
+        DB_DATABASE=greentag
+        DB_USERNAME=user
+        DB_PASSWORD=password
+        ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5.  **Migrasi & Seeding Database**
+    Jalankan migrasi untuk membuat semua tabel dan jalankan seeder untuk mengisi data awal (termasuk akun admin default).
 
-## License
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    - Akun admin default: `admin@example.com`
+    - Password: `password`
+
+6.  **Buat Symlink untuk Storage**
+    Agar gambar yang diunggah (seperti foto pengaduan dan gambar artikel) dapat diakses secara publik, jalankan perintah ini:
+    ```bash
+    php artisan storage:link
+    ```
+
+## Menjalankan Aplikasi
+
+1.  **Jalankan Server Pengembangan Vite** (untuk kompilasi aset frontend):
+
+    ```bash
+    npm run dev
+    ```
+
+2.  **Jalankan Server Aplikasi Laravel**
+    Buka terminal baru dan jalankan:
+    ```bash
+    php artisan serve
+    ```
+
+Aplikasi sekarang akan berjalan di `http://127.0.0.1:8000`.
+
+## Struktur Database
+
+Aplikasi ini menggunakan beberapa tabel utama yang saling berhubungan:
+
+- `users`: Menyimpan data admin dan petugas.
+- `bin_locations`: Menyimpan informasi tentang lokasi fisik.
+- `bins`: Menyimpan data setiap aset tempat sampah dengan QR token unik.
+- `collection_routes`: Mendefinisikan rute dan jadwal pengambilan.
+- `route_location`: Tabel pivot yang menghubungkan `collection_routes` dan `bin_locations` (Many-to-Many).
+- `complaints`: Menyimpan semua laporan yang masuk dari masyarakat.
+- `informations`: Menyimpan konten artikel untuk edukasi dan berita.
+
+---
+
+_README ini dibuat berdasarkan pengembangan proyek GreenTag. Dibuat dengan ❤ dan Laravel._

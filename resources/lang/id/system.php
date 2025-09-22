@@ -147,6 +147,7 @@ return [
     'educations_table_category' => 'Kategori',
     'educations_table_status' => 'Status',
     'educations_table_author' => 'Penulis',
+    'educations_table_video' => 'Video',
     'educations_table_actions' => 'Aksi',
 
     // Forms
@@ -156,7 +157,12 @@ return [
     'form_content' => 'Konten',
     'form_metadata' => 'Metadata',
     'form_main_image' => 'Gambar Utama',
+    'form_image_label' => 'File Gambar',
+    'form_image_label_optional' => 'File Gambar (Opsional)',
     'form_main_image_help' => 'Biarkan kosong untuk mempertahankan gambar saat ini.',
+    'form_supporting_video' => 'Video Pendukung',
+    'form_video_url' => 'Video URL (Opsional)',
+    'form_video_url_help' => 'Tempelkan link dari YouTube atau platform lain.',
     'form_status_published' => 'Published',
     'form_status_draft' => 'Draft',
     'btn_save_article' => 'Simpan Artikel',

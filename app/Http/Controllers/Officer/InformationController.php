@@ -30,6 +30,7 @@ class InformationController extends Controller
             'title' => ['required', 'string', 'max:255', 'unique:informations,title'],
             'content' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'video_url' => ['nullable', 'url', 'max:255'],
             'category' => ['required', Rule::in(['education', 'news', 'announcement'])],
             'status' => ['required', Rule::in(['published', 'draft'])],
         ]);
@@ -65,6 +66,7 @@ class InformationController extends Controller
             ],
             'content' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'video_url' => ['nullable', 'url', 'max:255'],
             'category' => ['required', Rule::in(['education', 'news', 'announcement'])],
             'status' => ['required', Rule::in(['published', 'draft'])],
         ]);

@@ -42,6 +42,7 @@
                             <th class="px-6 py-3">@lang('system.educations_table_category')</th>
                             <th class="px-6 py-3">@lang('system.educations_table_status')</th>
                             <th class="px-6 py-3">@lang('system.educations_table_author')</th>
+                            <th class="px-6 py-3 text-center">@lang('system.educations_table_video')</th>
                             <th class="px-6 py-3">@lang('system.educations_table_actions')</th>
                         </tr>
                     </thead>
@@ -69,6 +70,23 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $article->author->name ?? 'N/A' }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    @if ($article->video_url)
+                                        <a href="{{ $article->video_url }}" target="_blank"
+                                            class="inline-block text-blue-600 hover:text-blue-800"
+                                            title="View Video">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                                viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <span class="text-gray-300">-</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 space-x-2 text-sm">
                                     <a href="{{ route('officer.informations.edit', $article->id) }}"
                                         class="text-indigo-600">@lang('system.action_edit')</a>

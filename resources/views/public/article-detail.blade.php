@@ -41,7 +41,7 @@
 
         <!-- Article Content -->
         <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-            @if ($article->image)
+            {{-- @if ($article->image)
                 <div class="relative">
                     <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
                         class="w-full h-64 md:h-80 object-cover">
@@ -51,6 +51,35 @@
                             {{ $article->category }}
                         </span>
                     </div>
+                </div>
+            @else
+                <div
+                    class="w-full h-64 md:h-80 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center text-green-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
+                    </svg>
+                </div>
+            @endif --}}
+
+            @php
+                // Panggil helper untuk mendapatkan URL embed yang benar
+                $embedUrl = getYoutubeEmbedUrl($article->video_url);
+            @endphp
+
+            {{-- Prioritaskan Video Jika Ada, Jika Tidak Tampilkan Gambar --}}
+            @if ($embedUrl)
+                <div class="relative w-full pt-[56.25%] bg-black rounded-t-xl overflow-hidden">
+                    <iframe src="{{ $embedUrl }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen class="absolute top-0 left-0 w-full h-full">
+                    </iframe>
+                </div>
+            @elseif ($article->image)
+                <div class="relative">
+                    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
+                        class="w-full h-64 md:h-80 object-cover">
                 </div>
             @else
                 <div

@@ -147,6 +147,7 @@ return [
     'educations_table_category' => 'Category',
     'educations_table_status' => 'Status',
     'educations_table_author' => 'Author',
+    'educations_table_video' => 'Video',
     'educations_table_actions' => 'Actions',
 
     // Forms
@@ -156,7 +157,12 @@ return [
     'form_content' => 'Content',
     'form_metadata' => 'Metadata',
     'form_main_image' => 'Main Image',
+    'form_image_label' => 'Image File',
+    'form_image_label_optional' => 'Image File (Optional)',
     'form_main_image_help' => 'Leave blank to keep the current image.',
+    'form_supporting_video' => 'Supporting Video',
+    'form_video_url' => 'Video URL (Optional)',
+    'form_video_url_help' => 'Paste a link from YouTube or another platform.',
     'form_status_published' => 'Published',
     'form_status_draft' => 'Draft',
     'btn_save_article' => 'Save Article',

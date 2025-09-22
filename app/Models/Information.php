@@ -10,7 +10,16 @@ class Information extends Model
 {
     protected $table = 'informations';
 
-    protected $fillable = ['title', 'slug', 'content', 'image', 'category', 'status', 'author_id'];
+    protected $fillable = [
+        'title',
+        'slug',
+        'content',
+        'image',
+        'video_url',
+        'category',
+        'status',
+        'author_id',
+    ];
 
     /**
      * Relasi: Sebuah artikel Informasi ditulis oleh satu User.

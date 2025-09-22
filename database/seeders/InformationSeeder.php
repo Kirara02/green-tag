@@ -41,6 +41,22 @@ class InformationSeeder extends Seeder
                 'category' => 'news',
                 'status' => 'published',
             ],
+            // [
+            //     'title' => 'Tutorial Membuat Kompos dari Sampah Dapur',
+            //     'content' => '<div>Membuat kompos adalah cara terbaik untuk mengurangi limbah organik sekaligus menyuburkan tanaman Anda. Ikuti langkah-langkah sederhana dalam video ini untuk memulai komposter Anda sendiri di rumah.</div>',
+            //     'image' => 'information-images/compost-placeholder.jpg', // Contoh path gambar
+            //     'video_url' => 'https://www.youtube.com/watch?v=co5BWe_i_E0', // Contoh link video valid
+            //     'category' => 'education',
+            //     'status' => 'published',
+            // ],
+            // [
+            //     'title' => 'Pentingnya Mengurangi Penggunaan Plastik Sekali Pakai',
+            //     'content' => '<div>Plastik sekali pakai seperti sedotan, kantong kresek, dan botol minum menjadi ancaman serius bagi lingkungan kita. Limbah plastik ini sulit terurai dan seringkali berakhir di lautan, membahayakan kehidupan laut. Dengan membawa tas belanja, botol minum, dan sedotan sendiri, kita bisa membuat perbedaan besar.</div>',
+            //     'image' => 'information-images/plastic-waste-placeholder.jpg',
+            //     'video_url' => null,
+            //     'category' => 'education',
+            //     'status' => 'published',
+            // ],
             [
                 'title' => 'Perubahan Jadwal Pengambilan Sampah Selama Libur Nasional',
                 'content' =>

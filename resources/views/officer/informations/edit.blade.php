@@ -71,7 +71,9 @@
                         </div>
                     </div>
                     <div class="bg-white shadow-md rounded-lg p-6">
-                        <h3 class="text-lg font-medium mb-4">@lang('system.form_main_image')</h3>
+                        <h3 class="text-lg font-medium mb-2">@lang('system.form_main_image')</h3>
+                        <label for="image"
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_image_label_optional')</label>
                         @if ($information->image)
                             <img src="{{ asset('storage/' . $information->image) }}"
                                 alt="Gambar saat ini"
@@ -80,6 +82,16 @@
                         <input type="file" id="image" name="image"
                             class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-200 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100">
                         <p class="text-xs text-gray-500 mt-1">@lang('system.form_main_image_help')</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6">
+                        <h3 class="text-lg font-medium mb-2">@lang('system.form_supporting_video')</h3>
+                        <label for="video_url"
+                            class="block text-sm font-medium text-gray-700">@lang('system.form_video_url')</label>
+                        <input type="url" id="video_url" name="video_url"
+                            value="{{ old('video_url', $information->video_url ?? '') }}"
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                        <p class="text-xs text-gray-500 mt-1">@lang('system.form_video_url_help')</p>
                     </div>
                 </div>
             </div>
