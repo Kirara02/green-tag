@@ -48,6 +48,11 @@
         .sidebar-fixed {
             contain: layout style;
         }
+
+        #page-loader {
+            transition: width 300ms ease-out, opacity 300ms 200ms ease-in;
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.7), 0 0 5px rgba(45, 212, 191, 0.7);
+        }
     </style>
 
     @stack('styles')
@@ -55,6 +60,9 @@
 {{-- 2. Gunakan $persist untuk menyimpan state 'sidebarExpanded' --}}
 
 <body class="bg-slate-50 text-slate-800" x-data="{ sidebarOpen: false, sidebarExpanded: $persist(true).as('sidebar_expanded_state') }">
+    <div id="page-loader"
+        class="fixed top-0 left-0 w-full h-1 bg-green-500 z-50 transition-all duration-300"
+        style="width: 0%; opacity: 1;"></div>
     @auth
         <!-- Sidebar -->
         <aside
@@ -209,6 +217,46 @@
         if (window.Alpine) {
             document.body.classList.add('loaded');
         }
+    </script>
+    <script>
+        const loader = document.getElementById('page-loader');
+
+        // Fungsi untuk memulai animasi loading
+        function startLoading() {
+            loader.style.opacity = '1';
+            loader.style.width = '0%';
+            // Sedikit trik agar transisi dimulai dengan benar
+            setTimeout(() => {
+                loader.style.width = '70%'; // Stimulasi loading
+            }, 10);
+        }
+
+        // Fungsi untuk menyelesaikan animasi loading
+        function finishLoading() {
+            loader.style.width = '100%';
+            // Sembunyikan setelah selesai
+            setTimeout(() => {
+                loader.style.opacity = '0';
+            }, 300);
+            // Reset setelah disembunyikan
+            setTimeout(() => {
+                loader.style.width = '0%';
+            }, 600);
+        }
+
+        // Jalankan saat DOM selesai dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            startLoading();
+            // Gunakan event load untuk menandakan semua aset (gambar, dll) selesai dimuat
+            window.addEventListener('load', finishLoading);
+        });
+
+        // Jalankan sebelum halaman ditutup/navigasi
+        window.addEventListener('beforeunload', startLoading);
+
+        // Jika Anda menggunakan Turbolinks/Turbo, gunakan event mereka
+        // document.addEventListener('turbo:click', startLoading);
+        // document.addEventListener('turbo:load', finishLoading);
     </script>
 
     @stack('scripts')
